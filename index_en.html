@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyReminder - The Ultimate Study Management App</title>
+    <link rel="stylesheet" as="style" crossorigin
+        href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Pretendard', 'sans-serif'] },
+                    colors: { brand: { light: '#FFFCE8', dark: '#3E363F', accent: '#F59E0B' } },
+                    animation: { float: 'float 6s ease-in-out infinite', blob: 'blob 7s infinite' },
+                    keyframes: {
+                        float: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-20px)' } },
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #FFFCE8;
+            color: #3E363F;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .glass-nav {
+            background: rgba(255, 252, 232, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(62, 54, 63, 0.05);
+        }
+    </style>
+</head>
+
+<body class="antialiased min-h-screen flex flex-col selection:bg-brand-dark selection:text-brand-light">
+
+    <!-- Header -->
+    <header class="fixed w-full top-0 z-50 glass-nav transition-all duration-300" id="header">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex-shrink-0 flex items-center gap-2">
+                    <div
+                        class="w-10 h-10 bg-brand-dark rounded-xl flex items-center justify-center text-brand-light font-bold text-xl transform -rotate-3">
+                        S</div>
+                    <a href="index_en.html"
+                        class="text-2xl font-extrabold tracking-tight text-brand-dark">StudyReminder</a>
+                </div>
+
+                <nav class="hidden md:flex space-x-8 items-center">
+                    <a href="#features"
+                        class="text-brand-dark hover:text-brand-accent px-3 py-2 font-bold transition-colors">Features</a>
+                    <a href="#api-guide"
+                        class="text-brand-dark hover:text-brand-accent px-3 py-2 font-bold transition-colors">API
+                        Guide</a>
+                    <a href="privacy.html"
+                        class="text-brand-dark/70 hover:text-brand-dark px-3 py-2 font-medium transition-colors text-sm">Privacy
+                        Policy</a>
+
+                    <!-- Language Selector -->
+                    <div class="relative group">
+                        <button
+                            class="flex items-center gap-1 bg-brand-dark/5 hover:bg-brand-dark/10 px-3 py-1.5 rounded-full transition-colors text-sm font-bold">
+                            🌐 ENG
+                        </button>
+                        <div
+                            class="absolute right-0 mt-2 w-32 bg-white rounded-xl shadow-lg border border-brand-dark/10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 origin-top-right z-50">
+                            <div class="py-1">
+                                <a href="index.html"
+                                    class="block px-4 py-2 text-sm font-medium text-brand-dark/70 hover:bg-brand-dark/5 hover:text-brand-dark">🇰🇷
+                                    한국어</a>
+                                <a href="index_en.html"
+                                    class="block px-4 py-2 text-sm font-bold text-brand-dark bg-brand-dark/5">🇺🇸
+                                    English</a>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+
+                <!-- Mobile toggles -->
+                <div class="md:hidden flex items-center gap-4">
+                    <a href="index.html" class="text-sm font-bold bg-brand-dark/5 px-3 py-1.5 rounded-full">KR</a>
+                    <button class="text-xl" id="mobile-menu-btn">☰</button>
+                </div>
+            </div>
+
+            <!-- Mobile Navigation -->
+            <div id="mobile-menu" class="md:hidden hidden pb-6 pt-2">
+                <div class="flex flex-col space-y-2">
+                    <a href="#features"
+                        class="text-brand-dark hover:bg-brand-dark/5 px-4 py-3 rounded-xl font-bold">Features</a>
+                    <a href="#api-guide"
+                        class="text-brand-dark hover:bg-brand-dark/5 px-4 py-3 rounded-xl font-bold">API Guide</a>
+                    <a href="privacy.html"
+                        class="text-brand-dark/70 hover:bg-brand-dark/5 px-4 py-3 rounded-xl font-medium">Privacy
+                        Policy</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow pt-20">
+        <!-- Hero Section -->
+        <section class="relative overflow-hidden pt-16 pb-24 lg:pt-32 lg:pb-40 text-center">
+            <div class="absolute top-0 left-0 w-72 h-72 bg-brand-accent/20 rounded-full blur-2xl animate-blob"></div>
+            <div class="absolute top-0 right-0 w-72 h-72 bg-[#fde68a]/40 rounded-full blur-2xl animate-blob"
+                style="animation-delay: 2s;"></div>
+
+            <div class="max-w-4xl mx-auto px-4 relative z-10">
+                <div
+                    class="inline-flex items-center px-4 py-2 rounded-full bg-brand-dark/5 border border-brand-dark/10 mb-8 transform -rotate-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-brand-accent mr-2 animate-pulse"></span>
+                    <span class="text-sm font-bold text-brand-dark">Break the forgetting curve</span>
+                </div>
+
+                <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-8">
+                    The Ultimate Timer to beat <br class="hidden md:block" />
+                    <span class="text-brand-accent">Ebbinghaus Curve</span>
+                </h1>
+
+                <div class="space-y-6 mb-12">
+                    <p
+                        class="text-xl md:text-2xl font-extrabold text-[#FFFCE8] bg-brand-dark inline-block px-4 py-2 rounded-xl transform -skew-x-6">
+                        The miracle study manager that grabs even ADHD by the collar!
+                    </p>
+                    <p class="text-lg md:text-2xl text-brand-dark/80 font-medium">
+                        Stop worrying about when to review your notes.<br class="hidden sm:block" />
+                        <span
+                            class="font-bold text-brand-dark underline decoration-brand-accent decoration-4 underline-offset-4">Review
+                            when notified, and it automatically becomes long-term memory.</span>
+                    </p>
+                </div>
+
+                <a href="#"
+                    class="inline-flex items-center justify-center px-10 py-5 text-xl font-bold rounded-2xl text-brand-light bg-brand-dark shadow-xl hover:-translate-y-1 transition-transform">
+                    ✨ Download on Google Play
+                </a>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="py-24 bg-white relative z-20 border-y border-brand-dark/5">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-extrabold mb-4">4 Weapons to Break Forgetting</h2>
+                    <p class="text-xl text-brand-dark/70">StudyReminder dramatically boosts your learning efficiency.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Feature 1 -->
+                    <div
+                        class="bg-brand-light p-10 rounded-3xl shadow-sm border border-brand-dark/5 hover:-translate-y-1 transition-transform">
+                        <div class="text-4xl mb-6">🧠</div>
+                        <h3 class="text-2xl font-bold mb-3">Miracle Review Timeline</h3>
+                        <p class="text-brand-dark/70 text-lg">We calculate the exact golden timing when forgetting
+                            begins and send you notifications. Just tap the review button when notified.</p>
+                    </div>
+
+                    <!-- Feature 2 -->
+                    <div
+                        class="bg-brand-dark text-brand-light p-10 rounded-3xl shadow-md hover:-translate-y-1 transition-transform">
+                        <div class="text-4xl mb-6">🤖</div>
+                        <h3 class="text-2xl font-bold mb-3">AI Quiz Generation</h3>
+                        <p class="text-brand-light/80 text-lg">Passive reading is fake studying. Snap a photo of your
+                            notes, and Google Gemini AI instantly creates customized quizzes to help active recall.</p>
+                    </div>
+
+                    <!-- Feature 3 -->
+                    <div
+                        class="bg-[#F8F9FA] p-10 rounded-3xl border border-gray-200 hover:-translate-y-1 transition-transform">
+                        <div class="text-4xl mb-6">⏱️</div>
+                        <h3 class="text-2xl font-bold mb-3">Dual Timer System</h3>
+                        <p class="text-brand-dark/70 text-lg">We support both countdown timers for Pomodoro techniques
+                            and endless stopwatches for continuous deep work.</p>
+                    </div>
+
+                    <!-- Feature 4 -->
+                    <div
+                        class="bg-brand-light p-10 rounded-3xl border border-brand-accent/30 hover:-translate-y-1 transition-transform">
+                        <div class="text-4xl mb-6">📊</div>
+                        <h3 class="text-2xl font-bold mb-3">Clear Subject Statistics</h3>
+                        <p class="text-brand-dark/70 text-lg">"Did I neglect Math today?" Resolve study imbalances
+                            instantly with our intuitive statistical charts.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- API Guide Section -->
+        <section id="api-guide" class="py-24 bg-[#FFFCE8]">
+            <div class="max-w-4xl mx-auto px-4 text-center">
+                <span class="text-brand-accent font-extrabold uppercase text-sm mb-2 block">AI Integration</span>
+                <h2 class="text-3xl md:text-5xl font-extrabold mb-12">Gemini AI Free 3-Min Guide</h2>
+
+                <div class="flex flex-col md:flex-row gap-8 text-left">
+                    <div class="flex-1 bg-white p-6 rounded-2xl shadow-sm border border-brand-dark/10">
+                        <div class="text-3xl font-bold text-brand-dark/20 mb-4">01</div>
+                        <h3 class="text-xl font-bold mb-2">Login to Google AI Studio</h3>
+                        <p class="text-brand-dark/70 text-sm mb-4">Access the Developer Console page.</p>
+                        <a href="https://aistudio.google.com/app/apikey" target="_blank"
+                            class="text-sm font-bold text-brand-accent underline">Go to AI Studio &rarr;</a>
+                    </div>
+
+                    <div class="flex-1 bg-white p-6 rounded-2xl shadow-sm border border-brand-dark/10">
+                        <div class="text-3xl font-bold text-brand-dark/20 mb-4">02</div>
+                        <h3 class="text-xl font-bold mb-2">Create API Key</h3>
+                        <p class="text-brand-dark/70 text-sm">Click "Create API Key" in the menu to get your free key.
+                        </p>
+                    </div>
+
+                    <div class="flex-1 bg-white p-6 rounded-2xl shadow-sm border border-brand-accent/50">
+                        <div class="text-3xl font-bold text-brand-dark/20 mb-4">03</div>
+                        <h3 class="text-xl font-bold mb-2">Apply in the App</h3>
+                        <p class="text-brand-dark/70 text-sm">Paste the copied key into the 'Settings > Gemini API Key'
+                            section inside the StudyReminder app and save.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white text-brand-dark py-12 border-t border-brand-dark/10 text-center md:text-left">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6">
+            <p class="text-xl font-extrabold">StudyReminder</p>
+            <p class="text-sm shadow-sm md:shadow-none bg-brand-light md:bg-transparent px-4 py-2 rounded-full">&copy;
+                2026 StudyReminder. All rights reserved.</p>
+            <div class="flex space-x-6 text-sm font-bold">
+                <a href="privacy.html" class="hover:text-brand-accent">Privacy Policy</a>
+            </div>
+        </div>
+    </footer>
+    <script>
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+    </script>
+</body>
+
+</html>
