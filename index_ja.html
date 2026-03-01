@@ -1,17 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StudyReminder - The Ultimate Study Timer</title>
-    <meta name="description"
-        content="Beat the Ebbinghaus forgetting curve. StudyReminder automatically schedules your reviews for optimal long-term memory.">
+    <title>StudyReminder - 奇跡の学習管理アプリ</title>
+    <meta name="description" content="エビングハウスの忘却曲線を打ち負かす完璧なタイマー。最適なタイミングで復習を促し、長期記憶を定着させます。">
 
     <!-- Open Graph for Social Sharing -->
-    <meta property="og:title" content="StudyReminder - Miracle Study Timer">
-    <meta property="og:description"
-        content="Review when notified, and it automatically becomes long-term memory. Try it now.">
+    <meta property="og:title" content="StudyReminder - 忘却を防ぐ学習タイマー">
+    <meta property="og:description" content="通知に合わせて復習するだけ。自然と知識が長期記憶になります。今すぐ体験してください。">
 
     <link rel="stylesheet" as="style" crossorigin
         href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
@@ -113,25 +111,24 @@
                 <div class="flex-shrink-0 flex items-center gap-2">
                     <div
                         class="w-10 h-10 bg-brand-dark rounded-xl flex items-center justify-center text-brand-light font-bold text-xl transform -rotate-3">
-                        S</div>
-                    <a href="index_en.html"
+                        学</div>
+                    <a href="index_ja.html"
                         class="text-2xl font-extrabold tracking-tight text-brand-dark">StudyReminder</a>
                 </div>
 
                 <nav class="hidden md:flex space-x-8 items-center">
                     <a href="#features"
-                        class="text-brand-dark hover:text-brand-accent px-3 py-2 font-bold transition-colors">Features</a>
+                        class="text-brand-dark hover:text-brand-accent px-3 py-2 font-bold transition-colors">機能紹介</a>
                     <a href="#gallery"
-                        class="text-brand-dark hover:text-brand-accent px-3 py-2 font-bold transition-colors">Gallery</a>
+                        class="text-brand-dark hover:text-brand-accent px-3 py-2 font-bold transition-colors">ギャラリー</a>
                     <a href="privacy.html"
-                        class="text-brand-dark/70 hover:text-brand-dark px-3 py-2 font-medium transition-colors text-sm">Privacy
-                        Policy</a>
+                        class="text-brand-dark/70 hover:text-brand-dark px-3 py-2 font-medium transition-colors text-sm">プライバシーポリシー</a>
 
                     <!-- Language Selector -->
                     <div class="relative group">
                         <button
                             class="flex items-center gap-1 bg-brand-dark/5 hover:bg-brand-dark/10 px-3 py-1.5 rounded-full transition-colors text-sm font-bold">
-                            🌐 ENG
+                            🌐 JPN
                         </button>
                         <div
                             class="absolute right-0 mt-2 w-32 bg-white rounded-xl shadow-lg border border-brand-dark/10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 origin-top-right z-50">
@@ -140,10 +137,10 @@
                                     class="block px-4 py-2 text-sm font-medium text-brand-dark/70 hover:bg-brand-dark/5 hover:text-brand-dark">🇰🇷
                                     한국어</a>
                                 <a href="index_en.html"
-                                    class="block px-4 py-2 text-sm font-bold text-brand-dark bg-brand-dark/5">🇺🇸
+                                    class="block px-4 py-2 text-sm font-medium text-brand-dark/70 hover:bg-brand-dark/5 hover:text-brand-dark">🇺🇸
                                     English</a>
                                 <a href="index_ja.html"
-                                    class="block px-4 py-2 text-sm font-medium text-brand-dark/70 hover:bg-brand-dark/5 hover:text-brand-dark">🇯🇵
+                                    class="block px-4 py-2 text-sm font-bold text-brand-dark bg-brand-dark/5">🇯🇵
                                     日本語</a>
                                 <a href="index_zh.html"
                                     class="block px-4 py-2 text-sm font-medium text-brand-dark/70 hover:bg-brand-dark/5 hover:text-brand-dark">🇨🇳
@@ -158,8 +155,8 @@
                     <select onchange="location = this.value;"
                         class="bg-brand-dark/5 px-2 py-1.5 rounded-full text-sm font-bold border-none outline-none">
                         <option value="index.html">KOR</option>
-                        <option value="index_en.html" selected>ENG</option>
-                        <option value="index_ja.html">JPN</option>
+                        <option value="index_en.html">ENG</option>
+                        <option value="index_ja.html" selected>JPN</option>
                         <option value="index_zh.html">CHN</option>
                     </select>
                     <button class="text-xl" id="mobile-menu-btn">☰</button>
@@ -170,12 +167,11 @@
             <div id="mobile-menu" class="md:hidden hidden pb-6 pt-2">
                 <div class="flex flex-col space-y-2">
                     <a href="#features"
-                        class="text-brand-dark hover:bg-brand-dark/5 px-4 py-3 rounded-xl font-bold">Features</a>
+                        class="text-brand-dark hover:bg-brand-dark/5 px-4 py-3 rounded-xl font-bold">機能紹介</a>
                     <a href="#gallery"
-                        class="text-brand-dark hover:bg-brand-dark/5 px-4 py-3 rounded-xl font-bold">Gallery</a>
+                        class="text-brand-dark hover:bg-brand-dark/5 px-4 py-3 rounded-xl font-bold">ギャラリー</a>
                     <a href="privacy.html"
-                        class="text-brand-dark/70 hover:bg-brand-dark/5 px-4 py-3 rounded-xl font-medium">Privacy
-                        Policy</a>
+                        class="text-brand-dark/70 hover:bg-brand-dark/5 px-4 py-3 rounded-xl font-medium">プライバシーポリシー</a>
                 </div>
             </div>
         </div>
@@ -195,24 +191,23 @@
                     <div
                         class="inline-flex items-center px-4 py-2 rounded-full bg-brand-dark/5 border border-brand-dark/10 mb-8 transform -rotate-2">
                         <span class="w-2.5 h-2.5 rounded-full bg-brand-accent mr-2 animate-pulse"></span>
-                        <span class="text-sm font-bold text-brand-dark">Break the forgetting curve</span>
+                        <span class="text-sm font-bold text-brand-dark">忘却のサイクルを断ち切る</span>
                     </div>
 
                     <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-8 leading-tight">
-                        The ultimate timer to beat <br class="hidden xl:block" />
-                        <span class="text-brand-accent">Ebbinghaus Curve</span>
+                        エビングハウス忘却曲線を打ち負かす <br class="hidden xl:block" />
+                        <span class="text-brand-accent">完璧なタイマー</span>
                     </h1>
 
                     <div class="space-y-6 mb-12">
                         <p
                             class="text-xl md:text-2xl font-extrabold text-[#FFFCE8] bg-brand-dark inline-block px-4 py-2 rounded-xl transform -skew-x-6">
-                            The miracle study manager that guarantees execution!
+                            集中力が続かなくても、確実に復習できる奇跡のアプリ！
                         </p>
                         <p class="text-lg md:text-xl text-brand-dark/80 font-medium leading-relaxed">
-                            Stop wasting time planning when to review.<br class="hidden sm:block" />
+                            いつ復習すべきか、スケジュールに悩むのはもうやめましょう。<br class="hidden sm:block" />
                             <span
-                                class="font-bold text-brand-dark underline decoration-brand-accent decoration-4 underline-offset-4">Just
-                                open the app when notified, and lock it into your long-term memory.</span>
+                                class="font-bold text-brand-dark underline decoration-brand-accent decoration-4 underline-offset-4">通知に合わせてアプリを開くだけで、知識が長期記憶へと定着します。</span>
                         </p>
                     </div>
 
@@ -224,13 +219,13 @@
                                 d="M17.523 15.3414C17.523 15.8234 17.29 16.2734 16.892 16.5514L8.74996 22.2514C8.42396 22.4794 8.04696 22.5834 7.68496 22.5834C7.03196 22.5834 6.39596 22.2534 6.00296 21.6594C5.78996 21.3344 5.67996 20.9594 5.67996 20.5834V3.41738C5.67996 3.04138 5.78996 2.66638 6.00296 2.34138C6.54196 1.52738 7.64196 1.30338 8.45596 1.84138L16.598 7.54138C17.288 8.02438 17.523 8.94638 17.523 9.76138V15.3414Z">
                             </path>
                         </svg>
-                        Download on Google Play
+                        Google Play で手に入れよう
                     </a>
                 </div>
 
                 <div class="flex-1 order-1 lg:order-2 w-full max-w-sm lg:max-w-md animate-float">
                     <div class="phone-mockup relative mx-auto aspect-[9/19.5]">
-                        <img src="kor/01.홈.png" alt="StudyReminder Home Screen"
+                        <img src="kor/01.홈.png" alt="StudyReminder ホーム画面"
                             class="absolute w-full h-full object-cover rounded-3xl"
                             onerror="this.src='https://placehold.co/400x800?text=Home';">
                     </div>
@@ -242,9 +237,8 @@
         <section id="features" class="py-24 bg-white relative z-20 border-y border-brand-dark/5">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-24 scroll-animate">
-                    <h2 class="text-4xl lg:text-5xl font-extrabold mb-6">Perfect Memory Retention Flow</h2>
-                    <p class="text-xl text-brand-dark/70">From precise studying timers to automated review cycles—all in
-                        one app.</p>
+                    <h2 class="text-4xl lg:text-5xl font-extrabold mb-6">忘却を完全に制御するフロー</h2>
+                    <p class="text-xl text-brand-dark/70">タイマー計測から完璧な復習スケジューリングまで、このアプリひとつで完結します。</p>
                 </div>
 
                 <div class="space-y-32">
@@ -255,17 +249,14 @@
                             <div
                                 class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-brand-light border border-brand-accent/20 mb-6 text-3xl">
                                 ⏱️</div>
-                            <h3 class="text-3xl lg:text-4xl font-extrabold mb-4">Unwavering Focus,<br />Dual Timer
-                                System</h3>
+                            <h3 class="text-3xl lg:text-4xl font-extrabold mb-4">ブレない集中力<br />デュアルタイマーシステム</h3>
                             <p class="text-brand-dark/70 text-lg lg:text-xl leading-relaxed">
-                                Supports Pomodoro (countdown) and endless deep work (stopwatch) modes. Tracks time
-                                flawlessly in the background, so you can turn off your screen and fully immerse in your
-                                study.
+                                カウントダウン（ポモドーロ用）とストップウォッチ（連続集中用）の2つのモードをサポート。バックグラウンドでも1秒の誤差なく時間を計測でき、画面を消して集中状態に入れます。
                             </p>
                         </div>
                         <div class="flex-1 order-1 md:order-2 w-full flex justify-center">
                             <div class="w-64 lg:w-80 phone-mockup">
-                                <img src="kor/2-1타이머01.jpg" alt="Dual Timer" class="w-full h-auto"
+                                <img src="kor/2-1타이머01.jpg" alt="デュアルタイマー" class="w-full h-auto"
                                     onerror="this.src='https://placehold.co/400x800?text=Timer';">
                             </div>
                         </div>
@@ -275,7 +266,7 @@
                     <div class="flex flex-col md:flex-row items-center gap-12 lg:gap-24 scroll-animate">
                         <div class="flex-1 w-full flex justify-center">
                             <div class="w-64 lg:w-80 phone-mockup">
-                                <img src="kor/02.복습.png" alt="Review Timeline" class="w-full h-auto"
+                                <img src="kor/02.복습.png" alt="復習タイムライン" class="w-full h-auto"
                                     onerror="this.src='https://placehold.co/400x800?text=Review';">
                             </div>
                         </div>
@@ -283,11 +274,9 @@
                             <div
                                 class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-brand-dark text-brand-light mb-6 text-3xl">
                                 🧠</div>
-                            <h3 class="text-3xl lg:text-4xl font-extrabold mb-4">The Miracle Review<br />Timeline</h3>
+                            <h3 class="text-3xl lg:text-4xl font-extrabold mb-4">最適なタイミングで知らせる<br />奇跡の復習タイムライン</h3>
                             <p class="text-brand-dark/70 text-lg lg:text-xl leading-relaxed">
-                                Applying the Ebbinghaus forgetting curve, we calculate the exact golden timing (1, 3, 7,
-                                30 days) of when you are most likely to forget, and send a notification. Tap it, and
-                                instantly enter review mode.
+                                エビングハウスの忘却曲線理論を適用し、1日、3日、7日、30日の最も忘れやすい *ゴールデンタイム* を計算して通知を送ります。タップするだけで即座に復習モードに入れます。
                             </p>
                         </div>
                     </div>
@@ -298,15 +287,14 @@
                             <div
                                 class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-[#F8F9FA] border border-gray-200 mb-6 text-3xl">
                                 📊</div>
-                            <h3 class="text-3xl lg:text-4xl font-extrabold mb-4">Intuitive Subject<br />Statistics</h3>
+                            <h3 class="text-3xl lg:text-4xl font-extrabold mb-4">一目で把握できる<br />科目別バランス統計</h3>
                             <p class="text-brand-dark/70 text-lg lg:text-xl leading-relaxed">
-                                "Did I neglect History today?" Identify study imbalances instantly with our detailed pie
-                                and daily/weekly bar charts. Keep your learning balanced and focused.
+                                「今週は歴史の勉強をおろそかにしたかな？」 直感的な累積チャートと週間グラフで、全ての科目の学習・復習バランスを即座に把握し、予定を調整してください。
                             </p>
                         </div>
                         <div class="flex-1 order-1 md:order-2 w-full flex justify-center">
                             <div class="w-64 lg:w-80 phone-mockup">
-                                <img src="kor/03.통계.png" alt="Statistics Screen" class="w-full h-auto"
+                                <img src="kor/03.통계.png" alt="統計チャート画面" class="w-full h-auto"
                                     onerror="this.src='https://placehold.co/400x800?text=Stats';">
                             </div>
                         </div>
@@ -318,9 +306,8 @@
         <!-- Screenshot Gallery -->
         <section id="gallery" class="py-24 bg-[#FFFCE8] overflow-hidden">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12 scroll-animate text-center">
-                <h2 class="text-4xl font-extrabold mb-4">See the Details</h2>
-                <p class="text-lg text-brand-dark/70">Every pixel of StudyReminder is designed to maximize your study
-                    density.</p>
+                <h2 class="text-4xl font-extrabold mb-4">実用的なディテールを確認</h2>
+                <p class="text-lg text-brand-dark/70">StudyReminder のすべての機能は、あなたの学習効率を高めるために設計されています。</p>
             </div>
 
             <div class="flex gap-6 overflow-x-auto pb-12 px-4 sm:px-8 snap-x snap-mandatory hide-scrollbar">
@@ -329,7 +316,7 @@
                         <img src="kor/04.기록.jpg" alt="Rich History Viewer" class="w-full"
                             onerror="this.src='https://placehold.co/400x800?text=History';">
                     </div>
-                    <h4 class="mt-6 text-center font-bold text-xl">Detailed Study History</h4>
+                    <h4 class="mt-6 text-center font-bold text-xl">詳細な学習履歴</h4>
                 </div>
 
                 <div class="min-w-[280px] w-72 shrink-0 snap-center">
@@ -337,7 +324,7 @@
                         <img src="kor/05검색.jpg" alt="Quick Search Note" class="w-full"
                             onerror="this.src='https://placehold.co/400x800?text=Search';">
                     </div>
-                    <h4 class="mt-6 text-center font-bold text-xl">Quick Note Tag Search</h4>
+                    <h4 class="mt-6 text-center font-bold text-xl">過去のメモを素早く検索</h4>
                 </div>
 
                 <div class="min-w-[280px] w-72 shrink-0 snap-center">
@@ -345,7 +332,7 @@
                         <img src="kor/2-1타이머02.jpg" alt="Focus Record Input" class="w-full"
                             onerror="this.src='https://placehold.co/400x800?text=Record';">
                     </div>
-                    <h4 class="mt-6 text-center font-bold text-xl">Intuitive Log Entry</h4>
+                    <h4 class="mt-6 text-center font-bold text-xl">直感的な入力画面</h4>
                 </div>
 
                 <div class="min-w-[280px] w-72 shrink-0 snap-center">
@@ -353,7 +340,7 @@
                         <img src="kor/07.백업.jpg" alt="Cloud Backup" class="w-full"
                             onerror="this.src='https://placehold.co/400x800?text=Backup';">
                     </div>
-                    <h4 class="mt-6 text-center font-bold text-xl">Cloud Backup / Restore</h4>
+                    <h4 class="mt-6 text-center font-bold text-xl">クラウドバックアップ/復元</h4>
                 </div>
 
                 <div class="min-w-[280px] w-72 shrink-0 snap-center">
@@ -361,7 +348,7 @@
                         <img src="kor/06.설정.png" alt="App Customization" class="w-full"
                             onerror="this.src='https://placehold.co/400x800?text=Settings';">
                     </div>
-                    <h4 class="mt-6 text-center font-bold text-xl">Full Customization</h4>
+                    <h4 class="mt-6 text-center font-bold text-xl">充実したカスタマイズ設定</h4>
                 </div>
             </div>
         </section>
@@ -369,12 +356,12 @@
         <!-- CTA Section -->
         <section class="py-24 bg-brand-dark text-brand-light border-y border-brand-dark/5 scroll-animate">
             <div class="max-w-4xl mx-auto px-4 text-center">
-                <h2 class="text-4xl md:text-5xl font-extrabold mb-8">Stop fighting your memory.</h2>
-                <p class="text-xl text-brand-light/80 mb-12 font-medium">Experience the most explosive study
-                    efficiency<br />with one simple download.</p>
+                <h2 class="text-4xl md:text-5xl font-extrabold mb-8">忘却と戦うのは、今日で終わりにしましょう。</h2>
+                <p class="text-xl text-brand-light/80 mb-12 font-medium">
+                    一度のダウンロードで、真のスコアアップにつながる<br />爆発的な学習効率を体験してください。</p>
                 <a href="https://play.google.com/store/apps/details?id=com.memorycurve.studyreminder" target="_blank"
                     class="inline-flex items-center justify-center px-12 py-6 text-xl font-bold rounded-2xl text-brand-dark bg-brand-accent shadow-xl hover:bg-[#FCD34D] hover:-translate-y-1 hover:shadow-2xl transition-all duration-300">
-                    Download Free on Google Play &rarr;
+                    Google Play ストアで無料ダウンロード &rarr;
                 </a>
             </div>
         </section>
@@ -387,7 +374,7 @@
             <div class="flex items-center gap-2">
                 <div
                     class="w-8 h-8 bg-brand-dark text-brand-light rounded-lg flex items-center justify-center font-bold text-sm transform -rotate-3">
-                    S</div>
+                    学</div>
                 <p class="text-xl font-extrabold">StudyReminder</p>
             </div>
 
@@ -396,7 +383,7 @@
             </p>
 
             <div class="flex space-x-6 text-sm font-bold">
-                <a href="privacy.html" class="hover:text-brand-accent text-brand-dark/70">Privacy Policy</a>
+                <a href="privacy.html" class="hover:text-brand-accent text-brand-dark/70">プライバシーポリシー</a>
             </div>
         </div>
     </footer>
