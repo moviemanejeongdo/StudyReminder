@@ -1,15 +1,11 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StudyReminder - 终极复习计划打卡APP</title>
-    <meta name="description" content="战胜艾宾浩斯遗忘曲线。StudyReminder 会在最关键的时刻提醒您复习，将短期记忆转化为长期记忆。">
-
-    <!-- Open Graph for Social Sharing -->
-    <meta property="og:title" content="StudyReminder - 奇迹般的复习计时器">
-    <meta property="og:description" content="只需在收到通知时复习，知识就能自动变为长期记忆。现在就来体验吧。">
+    <title>StudyReminder - 奇迹日程管理应用程序</title>
+    <meta name="description" content="克服艾宾浩斯遗忘曲线的完美计时器。使用秒表/倒计时模式提高您的专注力。">
 
     <link rel="stylesheet" as="style" crossorigin
         href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
@@ -19,24 +15,27 @@
             theme: {
                 extend: {
                     fontFamily: { sans: ['Pretendard', 'sans-serif'] },
-                    colors: { brand: { light: '#FFFCE8', dark: '#3E363F', accent: '#F59E0B' } },
-                    animation: {
-                        float: 'float 6s ease-in-out infinite',
-                        blob: 'blob 7s infinite',
-                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards'
+                    colors: {
+                        background: 'hsl(0, 0%, 100%)',
+                        foreground: 'hsl(240, 10%, 3.9%)',
+                        card: 'hsl(0, 0%, 100%)',
+                        'card-foreground': 'hsl(240, 10%, 3.9%)',
+                        popover: 'hsl(0, 0%, 100%)',
+                        'popover-foreground': 'hsl(240, 10%, 3.9%)',
+                        primary: 'hsl(240, 5.9%, 10%)',
+                        'primary-foreground': 'hsl(0, 0%, 98%)',
+                        secondary: 'hsl(240, 4.8%, 95.9%)',
+                        'secondary-foreground': 'hsl(240, 5.9%, 10%)',
+                        muted: 'hsl(240, 4.8%, 95.9%)',
+                        'muted-foreground': 'hsl(240, 3.8%, 46.1%)',
+                        accent: 'hsl(240, 5.9%, 90%)',
+                        'accent-foreground': 'hsl(240, 5.9%, 10%)',
+                        border: 'hsl(240, 5.9%, 90%)',
                     },
-                    keyframes: {
-                        float: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-20px)' } },
-                        blob: {
-                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
-                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
-                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
-                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
-                        },
-                        fadeInUp: {
-                            '0%': { opacity: '0', transform: 'translateY(40px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' }
-                        }
+                    borderRadius: {
+                        lg: '0.5rem',
+                        md: 'calc(0.5rem - 2px)',
+                        sm: 'calc(0.5rem - 4px)'
                     }
                 }
             }
@@ -44,24 +43,22 @@
     </script>
     <style>
         body {
-            background-color: #FFFCE8;
-            color: #3E363F;
-            overflow-x: hidden;
+            background-color: theme('colors.background');
+            color: theme('colors.foreground');
             scroll-behavior: smooth;
         }
 
         .glass-nav {
-            background: rgba(255, 252, 232, 0.85);
+            background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(62, 54, 63, 0.05);
+            border-bottom: 1px solid theme('colors.border');
         }
 
-        /* Phone mockup styling */
         .phone-mockup {
-            border: 12px solid #3E363F;
-            border-radius: 40px;
+            border: 8px solid theme('colors.primary');
+            border-radius: 2.5rem;
             overflow: hidden;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
             background-color: #fff;
             position: relative;
         }
@@ -72,332 +69,394 @@
             top: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 120px;
-            height: 24px;
-            background-color: #3E363F;
-            border-bottom-left-radius: 16px;
-            border-bottom-right-radius: 16px;
+            width: 30%;
+            height: 20px;
+            background-color: theme('colors.primary');
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
             z-index: 10;
         }
 
-        .scroll-animate {
+        .anim-fade-up {
             opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            transform: translateY(20px);
+            transition: opacity 0.7s ease-out, transform 0.7s ease-out;
         }
 
-        .scroll-animate.is-visible {
+        .anim-fade-up.is-visible {
             opacity: 1;
             transform: translateY(0);
         }
 
-        .hide-scrollbar::-webkit-scrollbar {
-            display: none;
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition-property: color, background-color, border-color;
+            transition-duration: 150ms;
+            cursor: pointer;
         }
 
-        .hide-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
+        .btn-primary {
+            background-color: theme('colors.primary');
+            color: theme('colors.primary-foreground');
+        }
+
+        .btn-primary:hover {
+            background-color: theme('colors.primary');
+            opacity: 0.9;
+        }
+
+        .btn-outline {
+            border: 1px solid theme('colors.border');
+            background-color: theme('colors.background');
+        }
+
+        .btn-outline:hover {
+            background-color: theme('colors.accent');
+            color: theme('colors.accent-foreground');
+        }
+
+        .btn-lg {
+            height: 3rem;
+            padding-left: 2rem;
+            padding-right: 2rem;
+            font-size: 1rem;
         }
     </style>
 </head>
 
-<body class="antialiased min-h-screen flex flex-col selection:bg-brand-dark selection:text-brand-light">
+<body class="antialiased min-h-screen flex flex-col">
 
-    <!-- Header -->
-    <header class="fixed w-full top-0 z-50 glass-nav transition-all duration-300" id="header">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <div class="flex-shrink-0 flex items-center gap-2">
-                    <div
-                        class="w-10 h-10 bg-brand-dark rounded-xl flex items-center justify-center text-brand-light font-bold text-xl transform -rotate-3">
-                        学</div>
-                    <a href="index_zh.html"
-                        class="text-2xl font-extrabold tracking-tight text-brand-dark">StudyReminder</a>
-                </div>
+    <header class="fixed w-full top-0 z-50 glass-nav transition-all duration-300">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="index_zh.html" class="flex items-center gap-2 font-bold text-xl tracking-tight">
+                    <img src="kor/logo_completed.png" alt="StudyReminder Logo" class="w-8 h-8 object-contain">
+                    StudyReminder
+                </a>
 
-                <nav class="hidden md:flex space-x-8 items-center">
-                    <a href="#features"
-                        class="text-brand-dark hover:text-brand-accent px-3 py-2 font-bold transition-colors">功能介绍</a>
-                    <a href="#gallery"
-                        class="text-brand-dark hover:text-brand-accent px-3 py-2 font-bold transition-colors">界面展示</a>
+                <nav class="hidden md:flex space-x-6 items-center text-sm font-medium">
+                    <a href="#features" class="text-muted-foreground hover:text-foreground transition-colors">功能介绍</a>
+                    <a href="#ebbinghaus" class="text-muted-foreground hover:text-foreground transition-colors">遗忘曲线</a>
+                    <a href="#gallery" class="text-muted-foreground hover:text-foreground transition-colors">屏幕截图</a>
                     <a href="privacy.html"
-                        class="text-brand-dark/70 hover:text-brand-dark px-3 py-2 font-medium transition-colors text-sm">隐私政策</a>
+                        class="text-muted-foreground hover:text-foreground transition-colors">隐私政策</a>
 
-                    <!-- Language Selector -->
                     <div class="relative group">
-                        <button
-                            class="flex items-center gap-1 bg-brand-dark/5 hover:bg-brand-dark/10 px-3 py-1.5 rounded-full transition-colors text-sm font-bold">
+                        <button class="flex items-center gap-1 btn btn-outline h-9 px-3">
                             🌐 CHN
                         </button>
                         <div
-                            class="absolute right-0 mt-2 w-32 bg-white rounded-xl shadow-lg border border-brand-dark/10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 origin-top-right z-50">
-                            <div class="py-1">
+                            class="absolute right-0 top-full pt-1 w-32 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                            <div class="bg-popover border border-border rounded-md shadow-md py-1 text-sm">
                                 <a href="index.html"
-                                    class="block px-4 py-2 text-sm font-medium text-brand-dark/70 hover:bg-brand-dark/5 hover:text-brand-dark">🇰🇷
+                                    class="block px-4 py-2 text-muted-foreground hover:bg-accent hover:text-accent-foreground">🇰🇷
                                     한국어</a>
                                 <a href="index_en.html"
-                                    class="block px-4 py-2 text-sm font-medium text-brand-dark/70 hover:bg-brand-dark/5 hover:text-brand-dark">🇺🇸
+                                    class="block px-4 py-2 text-muted-foreground hover:bg-accent hover:text-accent-foreground">🇺🇸
                                     English</a>
                                 <a href="index_ja.html"
-                                    class="block px-4 py-2 text-sm font-medium text-brand-dark/70 hover:bg-brand-dark/5 hover:text-brand-dark">🇯🇵
+                                    class="block px-4 py-2 text-muted-foreground hover:bg-accent hover:text-accent-foreground">🇯🇵
                                     日本語</a>
                                 <a href="index_zh.html"
-                                    class="block px-4 py-2 text-sm font-bold text-brand-dark bg-brand-dark/5">🇨🇳
-                                    中文</a>
+                                    class="block px-4 py-2 bg-accent text-accent-foreground font-medium">🇨🇳 中文</a>
                             </div>
                         </div>
                     </div>
                 </nav>
 
-                <!-- Mobile toggles -->
-                <div class="md:hidden flex items-center gap-4">
+                <div class="md:hidden flex items-center gap-2">
                     <select onchange="location = this.value;"
-                        class="bg-brand-dark/5 px-2 py-1.5 rounded-full text-sm font-bold border-none outline-none">
+                        class="bg-transparent border border-border rounded-md px-2 py-1 text-sm outline-none">
                         <option value="index.html">KOR</option>
                         <option value="index_en.html">ENG</option>
                         <option value="index_ja.html">JPN</option>
                         <option value="index_zh.html" selected>CHN</option>
                     </select>
-                    <button class="text-xl" id="mobile-menu-btn">☰</button>
-                </div>
-            </div>
-
-            <!-- Mobile Navigation -->
-            <div id="mobile-menu" class="md:hidden hidden pb-6 pt-2">
-                <div class="flex flex-col space-y-2">
-                    <a href="#features"
-                        class="text-brand-dark hover:bg-brand-dark/5 px-4 py-3 rounded-xl font-bold">功能介绍</a>
-                    <a href="#gallery"
-                        class="text-brand-dark hover:bg-brand-dark/5 px-4 py-3 rounded-xl font-bold">界面展示</a>
-                    <a href="privacy.html"
-                        class="text-brand-dark/70 hover:bg-brand-dark/5 px-4 py-3 rounded-xl font-medium">隐私政策</a>
                 </div>
             </div>
         </div>
     </header>
 
-    <main class="flex-grow pt-20">
-        <!-- Hero Section -->
-        <section class="relative overflow-hidden pt-16 pb-24 lg:pt-32 lg:pb-32 text-center lg:text-left">
-            <div class="absolute top-0 left-0 w-72 h-72 bg-brand-accent/20 rounded-full blur-3xl animate-blob"></div>
-            <div class="absolute top-0 right-0 w-72 h-72 bg-[#fde68a]/40 rounded-full blur-3xl animate-blob"
-                style="animation-delay: 2s;"></div>
-
-            <div
-                class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col lg:flex-row items-center gap-12">
-
-                <div class="flex-1 order-2 lg:order-1 scroll-animate">
+    <main class="flex-grow pt-16">
+        <section class="relative pt-20 pb-24 lg:pt-32 lg:pb-32 overflow-hidden">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+                <div class="flex-1 text-center lg:text-left anim-fade-up">
                     <div
-                        class="inline-flex items-center px-4 py-2 rounded-full bg-brand-dark/5 border border-brand-dark/10 mb-8 transform -rotate-2">
-                        <span class="w-2.5 h-2.5 rounded-full bg-brand-accent mr-2 animate-pulse"></span>
-                        <span class="text-sm font-bold text-brand-dark">摆脱遗忘的死循环</span>
+                        class="inline-flex items-center rounded-full border border-border px-3 py-1 text-sm mb-6 bg-muted/50 text-muted-foreground">
+                        <span class="w-2 h-2 rounded-full bg-primary mr-2"></span>
+                        彻底摆脱遗忘的循环
                     </div>
 
-                    <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-8 leading-tight">
-                        战胜艾宾浩斯曲线的 <br class="hidden xl:block" />
-                        <span class="text-brand-accent">完美学习计时器</span>
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6 leading-[1.15]">
+                        克服艾宾浩斯遗忘曲线的<br class="hidden lg:block" />
+                        <span class="text-primary underline decoration-border underline-offset-4">完美复习计时器</span>
                     </h1>
 
-                    <div class="space-y-6 mb-12">
-                        <p
-                            class="text-xl md:text-2xl font-extrabold text-[#FFFCE8] bg-brand-dark inline-block px-4 py-2 rounded-xl transform -skew-x-6">
-                            专注力再差，也能逼你复盘的奇迹打卡APP！
+                    <p class="text-lg md:text-xl text-muted-foreground mb-8 leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                        不要再浪费时间计划何时复习什么内容了。<br class="hidden sm:block" />
+                        这款奇迹应用程序几乎在强迫您去复习！只需在收到通知时打开应用，您碎片化的知识就会不知不觉转化为<strong>长期记忆</strong>。
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                        <a href="https://play.google.com/store/apps/details?id=com.memorycurve.studyreminder"
+                            target="_blank" class="btn btn-primary btn-lg w-full sm:w-auto shadow-sm">
+                            在Google Play免费下载
+                        </a>
+                        <a href="#ebbinghaus" class="btn btn-outline btn-lg w-full sm:w-auto">
+                            查看遗忘曲线原理
+                        </a>
+                    </div>
+                </div>
+
+                <div class="flex-1 w-full max-w-sm lg:max-w-md anim-fade-up" style="transition-delay: 100ms;">
+                    <div class="phone-mockup aspect-[9/19.5] rotate-2 hover:rotate-0 transition-transform duration-500">
+                        <img src="kor/01.홈.png" alt="StudyReminder 主画面" class="w-full h-full object-cover">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="ebbinghaus" class="py-24 bg-muted/30 border-y border-border">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 text-center anim-fade-up">
+                <h2 class="text-3xl md:text-4xl font-bold tracking-tight mb-4">为什么必须使用StudyReminder进行复习的真正原因</h2>
+                <p class="text-lg text-muted-foreground mb-12 max-w-2xl mx-auto">
+                    一旦错过复习时机，记忆就会迅速消失。StudyReminder 会在最完美的<strong>黄金时间</strong>——就在您的记忆即将消退之前——发送强有力的通知，使您的记忆力恢复到 100%。
+                </p>
+
+                <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
+                    <!-- Left: Text and Mobile Mockup -->
+                    <div class="flex-1 w-full flex flex-col items-center lg:items-start text-center lg:text-left">
+                        <div class="w-12 h-12 rounded-lg bg-primary flex items-center justify-center mb-6">
+                            <span class="text-primary-foreground text-xl">🧠</span>
+                        </div>
+                        <h3 class="text-2xl md:text-3xl font-bold tracking-tight mb-4 text-foreground">
+                            不要把时间浪费在<br />
+                            <span class="text-muted-foreground">设定复习时间上</span>
+                        </h3>
+                        <p class="text-lg text-muted-foreground leading-relaxed mb-8">
+                            StudyReminder会自动计算并通知您最完美的<strong>黄金时间</strong>。
                         </p>
-                        <p class="text-lg md:text-xl text-brand-dark/80 font-medium leading-relaxed">
-                            不要再浪费时间计算复习周期。<br class="hidden sm:block" />
-                            <span
-                                class="font-bold text-brand-dark underline decoration-brand-accent decoration-4 underline-offset-4">只需在收到通知时打开APP，知识就会深深印在脑海中。</span>
+                        <div class="phone-mockup w-56 lg:w-64 shadow-lg mx-auto lg:mx-0">
+                            <img src="kor/02.복습.png" alt="复习时间轴" class="w-full">
+                        </div>
+                    </div>
+
+                    <!-- Right: Custom SVG Logic Graph -->
+                    <div class="flex-[1.5] w-full">
+                        <div
+                            class="bg-card border border-border rounded-xl shadow-sm p-6 md:p-8 relative overflow-hidden">
+                            <svg viewBox="0 0 800 400" class="w-full h-auto" preserveAspectRatio="xMidYMid meet">
+                                <!-- Grid Lines -->
+                                <line x1="50" y1="50" x2="750" y2="50" stroke="#e5e7eb" stroke-width="1"
+                                    stroke-dasharray="4" />
+                                <line x1="50" y1="150" x2="750" y2="150" stroke="#e5e7eb" stroke-width="1"
+                                    stroke-dasharray="4" />
+                                <line x1="50" y1="250" x2="750" y2="250" stroke="#e5e7eb" stroke-width="1"
+                                    stroke-dasharray="4" />
+                                <line x1="50" y1="350" x2="750" y2="350" stroke="#9ca3af" stroke-width="2" />
+                                <line x1="50" y1="50" x2="50" y2="350" stroke="#9ca3af" stroke-width="2" />
+
+                                <text x="40" y="55" font-family="Pretendard, sans-serif" font-size="14" fill="#6b7280"
+                                    text-anchor="end">100%</text>
+                                <text x="40" y="355" font-family="Pretendard, sans-serif" font-size="14" fill="#6b7280"
+                                    text-anchor="end">0%</text>
+
+                                <text x="50" y="375" font-family="Pretendard, sans-serif" font-size="14" fill="#6b7280"
+                                    text-anchor="middle">首次学习</text>
+                                <text x="250" y="375" font-family="Pretendard, sans-serif" font-size="14" fill="#6b7280"
+                                    text-anchor="middle">1小时后</text>
+                                <text x="450" y="375" font-family="Pretendard, sans-serif" font-size="14" fill="#6b7280"
+                                    text-anchor="middle">9小时后</text>
+                                <text x="650" y="375" font-family="Pretendard, sans-serif" font-size="14" fill="#6b7280"
+                                    text-anchor="middle">1天后</text>
+
+                                <!-- Forgetting Curve -->
+                                <path d="M 50 50 Q 150 250 250 300 T 750 340" fill="none" stroke="#ef4444"
+                                    stroke-width="3" stroke-dasharray="6" class="opacity-50" />
+                                <text x="730" y="330" font-family="Pretendard, sans-serif" font-size="14"
+                                    font-weight="bold" fill="#ef4444" text-anchor="end">不复习时</text>
+
+                                <!-- Retention Curve -->
+                                <path
+                                    d="M 50 50 Q 150 200 250 220 L 250 50 Q 350 150 450 160 L 450 50 Q 550 100 650 110 L 650 50 Q 700 70 750 80"
+                                    fill="none" stroke="#09090b" stroke-width="4" />
+
+                                <!-- Notification Points -->
+                                <circle cx="250" cy="50" r="6" fill="#09090b" />
+                                <circle cx="450" cy="50" r="6" fill="#09090b" />
+                                <circle cx="650" cy="50" r="6" fill="#09090b" />
+
+                                <!-- Tooltip-like Labels -->
+                                <rect x="180" y="10" width="140" height="30" rx="4" fill="#18181b" opacity="0.9" />
+                                <text x="250" y="30" font-family="Pretendard, sans-serif" font-size="12"
+                                    font-weight="bold" fill="#fafafa" text-anchor="middle">第一次复习通知！</text>
+
+                                <rect x="380" y="10" width="140" height="30" rx="4" fill="#18181b" opacity="0.9" />
+                                <text x="450" y="30" font-family="Pretendard, sans-serif" font-size="12"
+                                    font-weight="bold" fill="#fafafa" text-anchor="middle">第二次复习通知！</text>
+
+                                <text x="730" y="40" font-family="Pretendard, sans-serif" font-size="14"
+                                    font-weight="bold" fill="#09090b" text-anchor="end">使用StudyReminder时</text>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+        </section>
+
+        <section id="features" class="py-24 bg-background">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6">
+
+                <div class="flex flex-col md:flex-row items-center gap-12 lg:gap-20 mb-32 anim-fade-up">
+                    <div class="flex-1 order-2 md:order-1">
+                        <div
+                            class="w-12 h-12 rounded-lg bg-muted flex items-center justify-center border border-border mb-6">
+                            <span class="text-xl">⏱️</span>
+                        </div>
+                        <h3 class="text-3xl font-bold tracking-tight mb-4 text-foreground">
+                            为您量身定制的压倒性沉浸感<br />
+                            <span class="text-muted-foreground">秒表和倒计时选择功能</span>
+                        </h3>
+                        <p class="text-lg text-muted-foreground leading-relaxed">
+                            秒表（无限专注）模式、倒计时模式、息屏显示（AOD）或息屏等多种选项供您选择。<strong>打造属于您自己的专注方式，进入完美的沉浸状态。</strong>
                         </p>
                     </div>
-
-                    <a href="https://play.google.com/store/apps/details?id=com.memorycurve.studyreminder"
-                        target="_blank"
-                        class="inline-flex items-center justify-center px-10 py-5 text-xl font-bold rounded-2xl text-brand-light bg-brand-dark shadow-xl hover:-translate-y-1 hover:shadow-2xl transition-all duration-300">
-                        <svg class="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 24 24">
-                            <path
-                                d="M17.523 15.3414C17.523 15.8234 17.29 16.2734 16.892 16.5514L8.74996 22.2514C8.42396 22.4794 8.04696 22.5834 7.68496 22.5834C7.03196 22.5834 6.39596 22.2534 6.00296 21.6594C5.78996 21.3344 5.67996 20.9594 5.67996 20.5834V3.41738C5.67996 3.04138 5.78996 2.66638 6.00296 2.34138C6.54196 1.52738 7.64196 1.30338 8.45596 1.84138L16.598 7.54138C17.288 8.02438 17.523 8.94638 17.523 9.76138V15.3414Z">
-                            </path>
-                        </svg>
-                        Google Play 立即下载
-                    </a>
+                    <div class="flex-1 order-1 md:order-2 flex justify-center w-full">
+                        <div class="phone-mockup w-64 lg:w-72 shadow-lg">
+                            <img src="kor/2-1타이머01.jpg" alt="双向计时器" class="w-full">
+                        </div>
+                    </div>
                 </div>
 
-                <div class="flex-1 order-1 lg:order-2 w-full max-w-sm lg:max-w-md animate-float">
-                    <div class="phone-mockup relative mx-auto aspect-[9/19.5]">
-                        <img src="kor/01.홈.png" alt="StudyReminder Home Screen"
-                            class="absolute w-full h-full object-cover rounded-3xl"
-                            onerror="this.src='https://placehold.co/400x800?text=Home';">
+                <div class="flex flex-col md:flex-row items-center gap-12 lg:gap-20 mb-32 anim-fade-up">
+                    <div class="flex-1 flex justify-center w-full">
+                        <div class="phone-mockup w-64 lg:w-72 shadow-lg">
+                            <img src="kor/04.기록.jpg" alt="总结笔记记录" class="w-full">
+                        </div>
                     </div>
+                    <div class="flex-1">
+                        <div class="w-12 h-12 rounded-lg bg-primary flex items-center justify-center mb-6">
+                            <span class="text-primary-foreground text-xl">📝</span>
+                        </div>
+                        <h3 class="text-3xl font-bold tracking-tight mb-4 text-foreground">
+                            克服高度遗忘科目的<br />
+                            <span class="text-muted-foreground">强大关键词长期记忆化</span>
+                        </h3>
+                        <p class="text-lg text-muted-foreground leading-relaxed">
+                            创建总结笔记，<strong>通过关键词将容易遗忘的背诵科目完美转化为长期记忆。</strong>添加备忘录和照片，以最有效的方式管理您的个人副笔记。
+                        </p>
+                    </div>
+                </div>
+
+                <div class="flex flex-col md:flex-row items-center gap-12 lg:gap-20 anim-fade-up">
+                    <div class="flex-1 order-2 md:order-1">
+                        <div
+                            class="w-12 h-12 rounded-lg bg-muted flex items-center justify-center border border-border mb-6">
+                            <span class="text-xl">📊</span>
+                        </div>
+                        <h3 class="text-3xl font-bold tracking-tight mb-4 text-foreground">
+                            一目了然的<br />
+                            <span class="text-muted-foreground">各科目平衡统计</span>
+                        </h3>
+                        <p class="text-lg text-muted-foreground leading-relaxed">
+                            “本周这门科目的学习是不是有所懈怠？”通过直观的累计图表和每周图表，即刻掌握所有科目的学习与复习平衡，并精准调整您的计划。
+                        </p>
+                    </div>
+                    <div class="flex-1 order-1 md:order-2 flex justify-center w-full">
+                        <div class="phone-mockup w-64 lg:w-72 shadow-lg">
+                            <img src="kor/03.통계.png" alt="统计图表屏幕" class="w-full">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="gallery" class="py-24 bg-muted/30 border-y border-border">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 text-center anim-fade-up">
+                <h2 class="text-3xl md:text-4xl font-bold tracking-tight mb-4">提高学习密度的强大细节设计</h2>
+                <p class="text-lg text-muted-foreground mb-16">StudyReminder的每一个空间都是为了您的成功而设计的。</p>
+
+                <div class="flex flex-wrap justify-center items-start gap-10 lg:gap-14">
+
+                    <!-- Removed 04.기록.jpg from here -->
+
+                    <div class="w-full max-w-[260px] flex flex-col items-center">
+                        <div class="phone-mockup border-4 shadow-md mb-6 w-full aspect-[9/19.5]">
+                            <img src="kor/05검색.jpg" alt="快速搜索过去的笔记" class="w-full h-full object-cover">
+                        </div>
+                        <h4 class="font-bold text-foreground text-lg">快速搜索过去的笔记</h4>
+                    </div>
+
+                    <div class="w-full max-w-[260px] flex flex-col items-center">
+                        <div class="phone-mockup border-4 shadow-md mb-6 w-full aspect-[9/19.5]">
+                            <img src="kor/2-1타이머02.jpg" alt="直观输入学习内容" class="w-full h-full object-cover">
+                        </div>
+                        <h4 class="font-bold text-foreground text-lg">直观输入学习内容</h4>
+                    </div>
+
+                    <div class="w-full max-w-[260px] flex flex-col items-center">
+                        <div class="phone-mockup border-4 shadow-md mb-6 w-full aspect-[9/19.5]">
+                            <img src="kor/07.백업.jpg" alt="本地设备备份功能" class="w-full h-full object-cover">
+                        </div>
+                        <h4 class="font-bold text-foreground text-lg">安全的数据备份</h4>
+                    </div>
+
+                    <div class="w-full max-w-[260px] flex flex-col items-center">
+                        <div class="phone-mockup border-4 shadow-md mb-6 w-full aspect-[9/19.5]">
+                            <img src="kor/06.설정.png" alt="环境设置" class="w-full h-full object-cover">
+                        </div>
+                        <h4 class="font-bold text-foreground text-lg">完美的应用程序自定义</h4>
+                    </div>
+
+                    <div class="w-full max-w-[260px] flex flex-col items-center">
+                        <div class="phone-mockup border-4 shadow-md mb-6 w-full aspect-[9/19.5]">
+                            <img src="kor/08.언어설정.jpg" alt="语言设置" class="w-full h-full object-cover">
+                        </div>
+                        <h4 class="font-bold text-foreground text-lg">个性化语言设置</h4>
+                    </div>
+
                 </div>
             </div>
         </section>
 
-        <!-- Features Section -->
-        <section id="features" class="py-24 bg-white relative z-20 border-y border-brand-dark/5">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-24 scroll-animate">
-                    <h2 class="text-4xl lg:text-5xl font-extrabold mb-6">完美阻断遗忘的系统</h2>
-                    <p class="text-xl text-brand-dark/70">一个APP，搞定专注计时与科学复习安排。</p>
-                </div>
-
-                <div class="space-y-32">
-
-                    <!-- Feature 1 -->
-                    <div class="flex flex-col md:flex-row items-center gap-12 lg:gap-24 scroll-animate">
-                        <div class="flex-1 order-2 md:order-1 text-center md:text-left">
-                            <div
-                                class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-brand-light border border-brand-accent/20 mb-6 text-3xl">
-                                ⏱️</div>
-                            <h3 class="text-3xl lg:text-4xl font-extrabold mb-4">绝不妥协的专注，<br />双模式计时系统</h3>
-                            <p class="text-brand-dark/70 text-lg lg:text-xl leading-relaxed">
-                                支持倒计时（番茄工作法）和秒表（沉浸式连续学习）。后台完美运行，分秒不差，您可以放心息屏，全心投入学习。
-                            </p>
-                        </div>
-                        <div class="flex-1 order-1 md:order-2 w-full flex justify-center">
-                            <div class="w-64 lg:w-80 phone-mockup">
-                                <img src="kor/2-1타이머01.jpg" alt="Dual Timer" class="w-full h-auto"
-                                    onerror="this.src='https://placehold.co/400x800?text=Timer';">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Feature 2 -->
-                    <div class="flex flex-col md:flex-row items-center gap-12 lg:gap-24 scroll-animate">
-                        <div class="flex-1 w-full flex justify-center">
-                            <div class="w-64 lg:w-80 phone-mockup">
-                                <img src="kor/02.복습.png" alt="Review Timeline" class="w-full h-auto"
-                                    onerror="this.src='https://placehold.co/400x800?text=Review';">
-                            </div>
-                        </div>
-                        <div class="flex-1 text-center md:text-left">
-                            <div
-                                class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-brand-dark text-brand-light mb-6 text-3xl">
-                                🧠</div>
-                            <h3 class="text-3xl lg:text-4xl font-extrabold mb-4">绝佳时机提醒的<br />奇迹复习时间轴</h3>
-                            <p class="text-brand-dark/70 text-lg lg:text-xl leading-relaxed">
-                                基于艾宾浩斯遗忘曲线，精准计算1天、3天、7天、30天的记忆黄金临界点发送提醒通知。点击通知即可一键进入复习状态。
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Feature 3 -->
-                    <div class="flex flex-col md:flex-row items-center gap-12 lg:gap-24 scroll-animate">
-                        <div class="flex-1 order-2 md:order-1 text-center md:text-left">
-                            <div
-                                class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-[#F8F9FA] border border-gray-200 mb-6 text-3xl">
-                                📊</div>
-                            <h3 class="text-3xl lg:text-4xl font-extrabold mb-4">一目了然的<br />学科平衡统计分析</h3>
-                            <p class="text-brand-dark/70 text-lg lg:text-xl leading-relaxed">
-                                "这周是不是英语看少了？" 直观的数据看板、饼图与柱状图，带您即刻洞察各科学习与复习分布，立刻调整学习步调。
-                            </p>
-                        </div>
-                        <div class="flex-1 order-1 md:order-2 w-full flex justify-center">
-                            <div class="w-64 lg:w-80 phone-mockup">
-                                <img src="kor/03.통계.png" alt="Statistics Screen" class="w-full h-auto"
-                                    onerror="this.src='https://placehold.co/400x800?text=Stats';">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Screenshot Gallery -->
-        <section id="gallery" class="py-24 bg-[#FFFCE8] overflow-hidden">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12 scroll-animate text-center">
-                <h2 class="text-4xl font-extrabold mb-4">见证实用的细节</h2>
-                <p class="text-lg text-brand-dark/70">StudyReminder 的每一个设计都旨在提高您的学习密度。</p>
-            </div>
-
-            <div class="flex gap-6 overflow-x-auto pb-12 px-4 sm:px-8 snap-x snap-mandatory hide-scrollbar">
-                <div class="min-w-[280px] w-72 shrink-0 snap-center">
-                    <div class="phone-mockup border-8 shadow-xl">
-                        <img src="kor/04.기록.jpg" alt="Rich History Viewer" class="w-full"
-                            onerror="this.src='https://placehold.co/400x800?text=History';">
-                    </div>
-                    <h4 class="mt-6 text-center font-bold text-xl">详尽的学习历史</h4>
-                </div>
-
-                <div class="min-w-[280px] w-72 shrink-0 snap-center">
-                    <div class="phone-mockup border-8 shadow-xl">
-                        <img src="kor/05검색.jpg" alt="Quick Search Note" class="w-full"
-                            onerror="this.src='https://placehold.co/400x800?text=Search';">
-                    </div>
-                    <h4 class="mt-6 text-center font-bold text-xl">快速检索笔记</h4>
-                </div>
-
-                <div class="min-w-[280px] w-72 shrink-0 snap-center">
-                    <div class="phone-mockup border-8 shadow-xl">
-                        <img src="kor/2-1타이머02.jpg" alt="Focus Record Input" class="w-full"
-                            onerror="this.src='https://placehold.co/400x800?text=Record';">
-                    </div>
-                    <h4 class="mt-6 text-center font-bold text-xl">直观的内容日志</h4>
-                </div>
-
-                <div class="min-w-[280px] w-72 shrink-0 snap-center">
-                    <div class="phone-mockup border-8 shadow-xl">
-                        <img src="kor/07.백업.jpg" alt="Cloud Backup" class="w-full"
-                            onerror="this.src='https://placehold.co/400x800?text=Backup';">
-                    </div>
-                    <h4 class="mt-6 text-center font-bold text-xl">本地 ZIP 备份与恢复</h4>
-                </div>
-
-                <div class="min-w-[280px] w-72 shrink-0 snap-center">
-                    <div class="phone-mockup border-8 shadow-xl">
-                        <img src="kor/06.설정.png" alt="App Customization" class="w-full"
-                            onerror="this.src='https://placehold.co/400x800?text=Settings';">
-                    </div>
-                    <h4 class="mt-6 text-center font-bold text-xl">深度自定义设置</h4>
-                </div>
-            </div>
-        </section>
-
-        <!-- CTA Section -->
-        <section class="py-24 bg-brand-dark text-brand-light border-y border-brand-dark/5 scroll-animate">
-            <div class="max-w-4xl mx-auto px-4 text-center">
-                <h2 class="text-4xl md:text-5xl font-extrabold mb-8">告别遗忘焦虑。</h2>
-                <p class="text-xl text-brand-light/80 mb-12 font-medium">只需一次下载，体验带来真正分数的<br />核弹级学习效率。</p>
+        <section class="py-24 bg-foreground text-background text-center anim-fade-up">
+            <div class="max-w-3xl mx-auto px-4">
+                <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-6">不要再与遗忘作斗争了。</h2>
+                <p class="text-lg md:text-xl text-muted/80 mb-10 leading-relaxed font-light">
+                    一次下载，体验通向成功的爆炸性最高学习效率。
+                </p>
                 <a href="https://play.google.com/store/apps/details?id=com.memorycurve.studyreminder" target="_blank"
-                    class="inline-flex items-center justify-center px-12 py-6 text-xl font-bold rounded-2xl text-brand-dark bg-brand-accent shadow-xl hover:bg-[#FCD34D] hover:-translate-y-1 hover:shadow-2xl transition-all duration-300">
-                    在 Google Play 免费下载 &rarr;
+                    class="btn bg-background text-foreground hover:bg-muted font-bold h-14 px-8 text-lg rounded-xl shadow-lg border border-border/10 transition-transform hover:scale-105">
+                    在Google Play免费下载 &rarr;
                 </a>
             </div>
         </section>
 
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-white text-brand-dark py-12 text-center md:text-left">
-        <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6">
-            <div class="flex items-center gap-2">
-                <div
-                    class="w-8 h-8 bg-brand-dark text-brand-light rounded-lg flex items-center justify-center font-bold text-sm transform -rotate-3">
-                    学</div>
-                <p class="text-xl font-extrabold">StudyReminder</p>
+    <footer class="border-t border-border bg-background py-8 text-center md:text-left">
+        <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-2 font-bold text-foreground">
+                <img src="kor/logo_completed.png" alt="StudyReminder Logo" class="w-6 h-6 object-contain">
+                StudyReminder
             </div>
-
-            <p class="text-sm shadow-sm md:shadow-none bg-brand-light md:bg-transparent px-4 py-2 rounded-full">
+            <p class="text-sm text-muted-foreground">
                 &copy; 2026 StudyReminder. All rights reserved.
             </p>
-
-            <div class="flex space-x-6 text-sm font-bold">
-                <a href="privacy.html" class="hover:text-brand-accent text-brand-dark/70">隐私政策</a>
-            </div>
+            <a href="privacy.html"
+                class="text-sm text-muted-foreground hover:text-foreground font-medium transition-colors">
+                隐私政策
+            </a>
         </div>
     </footer>
 
     <script>
-        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
-            document.getElementById('mobile-menu').classList.toggle('hidden');
-        });
-
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.15
-        };
-
+        const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
         const observer = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -407,9 +466,7 @@
             });
         }, observerOptions);
 
-        document.querySelectorAll('.scroll-animate').forEach(el => {
-            observer.observe(el);
-        });
+        document.querySelectorAll('.anim-fade-up').forEach(el => observer.observe(el));
     </script>
 </body>
 

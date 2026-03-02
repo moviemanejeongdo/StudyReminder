@@ -4,12 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StudyReminder - 奇跡の学習管理アプリ</title>
-    <meta name="description" content="エビングハウスの忘却曲線を打ち負かす完璧なタイマー。最適なタイミングで復習を促し、長期記憶を定着させます。">
-
-    <!-- Open Graph for Social Sharing -->
-    <meta property="og:title" content="StudyReminder - 忘却を防ぐ学習タイマー">
-    <meta property="og:description" content="通知に合わせて復習するだけ。自然と知識が長期記憶になります。今すぐ体験してください。">
+    <title>StudyReminder - 奇跡のスケジュール管理アプリ</title>
+    <meta name="description" content="エビングハウスの忘却曲線を打ち破る完璧なタイマー。ストップウォッチ/タイマーモードで没入感を高めましょう。">
 
     <link rel="stylesheet" as="style" crossorigin
         href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
@@ -19,24 +15,27 @@
             theme: {
                 extend: {
                     fontFamily: { sans: ['Pretendard', 'sans-serif'] },
-                    colors: { brand: { light: '#FFFCE8', dark: '#3E363F', accent: '#F59E0B' } },
-                    animation: {
-                        float: 'float 6s ease-in-out infinite',
-                        blob: 'blob 7s infinite',
-                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards'
+                    colors: {
+                        background: 'hsl(0, 0%, 100%)',
+                        foreground: 'hsl(240, 10%, 3.9%)',
+                        card: 'hsl(0, 0%, 100%)',
+                        'card-foreground': 'hsl(240, 10%, 3.9%)',
+                        popover: 'hsl(0, 0%, 100%)',
+                        'popover-foreground': 'hsl(240, 10%, 3.9%)',
+                        primary: 'hsl(240, 5.9%, 10%)',
+                        'primary-foreground': 'hsl(0, 0%, 98%)',
+                        secondary: 'hsl(240, 4.8%, 95.9%)',
+                        'secondary-foreground': 'hsl(240, 5.9%, 10%)',
+                        muted: 'hsl(240, 4.8%, 95.9%)',
+                        'muted-foreground': 'hsl(240, 3.8%, 46.1%)',
+                        accent: 'hsl(240, 5.9%, 90%)',
+                        'accent-foreground': 'hsl(240, 5.9%, 10%)',
+                        border: 'hsl(240, 5.9%, 90%)',
                     },
-                    keyframes: {
-                        float: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-20px)' } },
-                        blob: {
-                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
-                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
-                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
-                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
-                        },
-                        fadeInUp: {
-                            '0%': { opacity: '0', transform: 'translateY(40px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' }
-                        }
+                    borderRadius: {
+                        lg: '0.5rem',
+                        md: 'calc(0.5rem - 2px)',
+                        sm: 'calc(0.5rem - 4px)'
                     }
                 }
             }
@@ -44,24 +43,22 @@
     </script>
     <style>
         body {
-            background-color: #FFFCE8;
-            color: #3E363F;
-            overflow-x: hidden;
+            background-color: theme('colors.background');
+            color: theme('colors.foreground');
             scroll-behavior: smooth;
         }
 
         .glass-nav {
-            background: rgba(255, 252, 232, 0.85);
+            background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(62, 54, 63, 0.05);
+            border-bottom: 1px solid theme('colors.border');
         }
 
-        /* Phone mockup styling */
         .phone-mockup {
-            border: 12px solid #3E363F;
-            border-radius: 40px;
+            border: 8px solid theme('colors.primary');
+            border-radius: 2.5rem;
             overflow: hidden;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
             background-color: #fff;
             position: relative;
         }
@@ -72,333 +69,397 @@
             top: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 120px;
-            height: 24px;
-            background-color: #3E363F;
-            border-bottom-left-radius: 16px;
-            border-bottom-right-radius: 16px;
+            width: 30%;
+            height: 20px;
+            background-color: theme('colors.primary');
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
             z-index: 10;
         }
 
-        .scroll-animate {
+        .anim-fade-up {
             opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            transform: translateY(20px);
+            transition: opacity 0.7s ease-out, transform 0.7s ease-out;
         }
 
-        .scroll-animate.is-visible {
+        .anim-fade-up.is-visible {
             opacity: 1;
             transform: translateY(0);
         }
 
-        .hide-scrollbar::-webkit-scrollbar {
-            display: none;
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition-property: color, background-color, border-color;
+            transition-duration: 150ms;
+            cursor: pointer;
         }
 
-        .hide-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
+        .btn-primary {
+            background-color: theme('colors.primary');
+            color: theme('colors.primary-foreground');
+        }
+
+        .btn-primary:hover {
+            background-color: theme('colors.primary');
+            opacity: 0.9;
+        }
+
+        .btn-outline {
+            border: 1px solid theme('colors.border');
+            background-color: theme('colors.background');
+        }
+
+        .btn-outline:hover {
+            background-color: theme('colors.accent');
+            color: theme('colors.accent-foreground');
+        }
+
+        .btn-lg {
+            height: 3rem;
+            padding-left: 2rem;
+            padding-right: 2rem;
+            font-size: 1rem;
         }
     </style>
 </head>
 
-<body class="antialiased min-h-screen flex flex-col selection:bg-brand-dark selection:text-brand-light">
+<body class="antialiased min-h-screen flex flex-col">
 
-    <!-- Header -->
-    <header class="fixed w-full top-0 z-50 glass-nav transition-all duration-300" id="header">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <div class="flex-shrink-0 flex items-center gap-2">
-                    <div
-                        class="w-10 h-10 bg-brand-dark rounded-xl flex items-center justify-center text-brand-light font-bold text-xl transform -rotate-3">
-                        学</div>
-                    <a href="index_ja.html"
-                        class="text-2xl font-extrabold tracking-tight text-brand-dark">StudyReminder</a>
-                </div>
+    <header class="fixed w-full top-0 z-50 glass-nav transition-all duration-300">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="index_ja.html" class="flex items-center gap-2 font-bold text-xl tracking-tight">
+                    <img src="kor/logo_completed.png" alt="StudyReminder Logo" class="w-8 h-8 object-contain">
+                    StudyReminder
+                </a>
 
-                <nav class="hidden md:flex space-x-8 items-center">
-                    <a href="#features"
-                        class="text-brand-dark hover:text-brand-accent px-3 py-2 font-bold transition-colors">機能紹介</a>
+                <nav class="hidden md:flex space-x-6 items-center text-sm font-medium">
+                    <a href="#features" class="text-muted-foreground hover:text-foreground transition-colors">機能紹介</a>
+                    <a href="#ebbinghaus" class="text-muted-foreground hover:text-foreground transition-colors">忘却曲線</a>
                     <a href="#gallery"
-                        class="text-brand-dark hover:text-brand-accent px-3 py-2 font-bold transition-colors">ギャラリー</a>
+                        class="text-muted-foreground hover:text-foreground transition-colors">スクリーンショット</a>
                     <a href="privacy.html"
-                        class="text-brand-dark/70 hover:text-brand-dark px-3 py-2 font-medium transition-colors text-sm">プライバシーポリシー</a>
+                        class="text-muted-foreground hover:text-foreground transition-colors">プライバシーポリシー</a>
 
-                    <!-- Language Selector -->
                     <div class="relative group">
-                        <button
-                            class="flex items-center gap-1 bg-brand-dark/5 hover:bg-brand-dark/10 px-3 py-1.5 rounded-full transition-colors text-sm font-bold">
+                        <button class="flex items-center gap-1 btn btn-outline h-9 px-3">
                             🌐 JPN
                         </button>
                         <div
-                            class="absolute right-0 mt-2 w-32 bg-white rounded-xl shadow-lg border border-brand-dark/10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 origin-top-right z-50">
-                            <div class="py-1">
+                            class="absolute right-0 top-full pt-1 w-32 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                            <div class="bg-popover border border-border rounded-md shadow-md py-1 text-sm">
                                 <a href="index.html"
-                                    class="block px-4 py-2 text-sm font-medium text-brand-dark/70 hover:bg-brand-dark/5 hover:text-brand-dark">🇰🇷
+                                    class="block px-4 py-2 text-muted-foreground hover:bg-accent hover:text-accent-foreground">🇰🇷
                                     한국어</a>
                                 <a href="index_en.html"
-                                    class="block px-4 py-2 text-sm font-medium text-brand-dark/70 hover:bg-brand-dark/5 hover:text-brand-dark">🇺🇸
+                                    class="block px-4 py-2 text-muted-foreground hover:bg-accent hover:text-accent-foreground">🇺🇸
                                     English</a>
                                 <a href="index_ja.html"
-                                    class="block px-4 py-2 text-sm font-bold text-brand-dark bg-brand-dark/5">🇯🇵
-                                    日本語</a>
+                                    class="block px-4 py-2 bg-accent text-accent-foreground font-medium">🇯🇵 日本語</a>
                                 <a href="index_zh.html"
-                                    class="block px-4 py-2 text-sm font-medium text-brand-dark/70 hover:bg-brand-dark/5 hover:text-brand-dark">🇨🇳
+                                    class="block px-4 py-2 text-muted-foreground hover:bg-accent hover:text-accent-foreground">🇨🇳
                                     中文</a>
                             </div>
                         </div>
                     </div>
                 </nav>
 
-                <!-- Mobile toggles -->
-                <div class="md:hidden flex items-center gap-4">
+                <div class="md:hidden flex items-center gap-2">
                     <select onchange="location = this.value;"
-                        class="bg-brand-dark/5 px-2 py-1.5 rounded-full text-sm font-bold border-none outline-none">
+                        class="bg-transparent border border-border rounded-md px-2 py-1 text-sm outline-none">
                         <option value="index.html">KOR</option>
                         <option value="index_en.html">ENG</option>
                         <option value="index_ja.html" selected>JPN</option>
                         <option value="index_zh.html">CHN</option>
                     </select>
-                    <button class="text-xl" id="mobile-menu-btn">☰</button>
-                </div>
-            </div>
-
-            <!-- Mobile Navigation -->
-            <div id="mobile-menu" class="md:hidden hidden pb-6 pt-2">
-                <div class="flex flex-col space-y-2">
-                    <a href="#features"
-                        class="text-brand-dark hover:bg-brand-dark/5 px-4 py-3 rounded-xl font-bold">機能紹介</a>
-                    <a href="#gallery"
-                        class="text-brand-dark hover:bg-brand-dark/5 px-4 py-3 rounded-xl font-bold">ギャラリー</a>
-                    <a href="privacy.html"
-                        class="text-brand-dark/70 hover:bg-brand-dark/5 px-4 py-3 rounded-xl font-medium">プライバシーポリシー</a>
                 </div>
             </div>
         </div>
     </header>
 
-    <main class="flex-grow pt-20">
-        <!-- Hero Section -->
-        <section class="relative overflow-hidden pt-16 pb-24 lg:pt-32 lg:pb-32 text-center lg:text-left">
-            <div class="absolute top-0 left-0 w-72 h-72 bg-brand-accent/20 rounded-full blur-3xl animate-blob"></div>
-            <div class="absolute top-0 right-0 w-72 h-72 bg-[#fde68a]/40 rounded-full blur-3xl animate-blob"
-                style="animation-delay: 2s;"></div>
-
-            <div
-                class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col lg:flex-row items-center gap-12">
-
-                <div class="flex-1 order-2 lg:order-1 scroll-animate">
+    <main class="flex-grow pt-16">
+        <section class="relative pt-20 pb-24 lg:pt-32 lg:pb-32 overflow-hidden">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+                <div class="flex-1 text-center lg:text-left anim-fade-up">
                     <div
-                        class="inline-flex items-center px-4 py-2 rounded-full bg-brand-dark/5 border border-brand-dark/10 mb-8 transform -rotate-2">
-                        <span class="w-2.5 h-2.5 rounded-full bg-brand-accent mr-2 animate-pulse"></span>
-                        <span class="text-sm font-bold text-brand-dark">忘却のサイクルを断ち切る</span>
+                        class="inline-flex items-center rounded-full border border-border px-3 py-1 text-sm mb-6 bg-muted/50 text-muted-foreground">
+                        <span class="w-2 h-2 rounded-full bg-primary mr-2"></span>
+                        忘却の連鎖から完全に抜け出す
                     </div>
 
-                    <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-8 leading-tight">
-                        エビングハウス忘却曲線を打ち負かす <br class="hidden xl:block" />
-                        <span class="text-brand-accent">完璧なタイマー</span>
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6 leading-[1.15]">
+                        エビングハウスの忘却曲線を打ち破る<br class="hidden lg:block" />
+                        <span class="text-primary underline decoration-border underline-offset-4">完璧な復習タイマー</span>
                     </h1>
 
-                    <div class="space-y-6 mb-12">
-                        <p
-                            class="text-xl md:text-2xl font-extrabold text-[#FFFCE8] bg-brand-dark inline-block px-4 py-2 rounded-xl transform -skew-x-6">
-                            集中力が続かなくても、確実に復習できる奇跡のアプリ！
+                    <p class="text-lg md:text-xl text-muted-foreground mb-8 leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                        もう、いつ何を復習するか計画するのに時間を無駄にしないでください。<br class="hidden sm:block" />
+                        強制的にも復習させてしまう奇跡のアプリ。通知に合わせてアプリを開くだけで、いつの間にか長期記憶として定着します。
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                        <a href="https://play.google.com/store/apps/details?id=com.memorycurve.studyreminder"
+                            target="_blank" class="btn btn-primary btn-lg w-full sm:w-auto shadow-sm">
+                            Google Playで無料ダウンロード
+                        </a>
+                        <a href="#ebbinghaus" class="btn btn-outline btn-lg w-full sm:w-auto">
+                            忘却曲線の原理を見る
+                        </a>
+                    </div>
+                </div>
+
+                <div class="flex-1 w-full max-w-sm lg:max-w-md anim-fade-up" style="transition-delay: 100ms;">
+                    <div class="phone-mockup aspect-[9/19.5] rotate-2 hover:rotate-0 transition-transform duration-500">
+                        <img src="kor/01.홈.png" alt="StudyReminder ホーム画面" class="w-full h-full object-cover">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="ebbinghaus" class="py-24 bg-muted/30 border-y border-border">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 text-center anim-fade-up">
+                <h2 class="text-3xl md:text-4xl font-bold tracking-tight mb-4">StudyReminderで必ず復習すべき本当の理由</h2>
+                <p class="text-lg text-muted-foreground mb-12 max-w-2xl mx-auto">
+                    復習のタイミングを逃すと、記憶は急激に失われます。StudyReminderは、あなたの記憶が消える直前、再び100%に引き上げる<strong>完璧なゴールデンタイム</strong>に圧倒的な通知を送ります。
+                </p>
+
+                <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
+                    <!-- Left: Text and Mobile Mockup -->
+                    <div class="flex-1 w-full flex flex-col items-center lg:items-start text-center lg:text-left">
+                        <div class="w-12 h-12 rounded-lg bg-primary flex items-center justify-center mb-6">
+                            <span class="text-primary-foreground text-xl">🧠</span>
+                        </div>
+                        <h3 class="text-2xl md:text-3xl font-bold tracking-tight mb-4 text-foreground">
+                            復習時間の設定に<br />
+                            <span class="text-muted-foreground">時間を無駄にしないでください</span>
+                        </h3>
+                        <p class="text-lg text-muted-foreground leading-relaxed mb-8">
+                            StudyReminderが最も完璧な<strong>ゴールデンタイム</strong>を自動的に計算してお知らせします。
                         </p>
-                        <p class="text-lg md:text-xl text-brand-dark/80 font-medium leading-relaxed">
-                            いつ復習すべきか、スケジュールに悩むのはもうやめましょう。<br class="hidden sm:block" />
-                            <span
-                                class="font-bold text-brand-dark underline decoration-brand-accent decoration-4 underline-offset-4">通知に合わせてアプリを開くだけで、知識が長期記憶へと定着します。</span>
+                        <div class="phone-mockup w-56 lg:w-64 shadow-lg mx-auto lg:mx-0">
+                            <img src="kor/02.복습.png" alt="復習のタイムライン" class="w-full">
+                        </div>
+                    </div>
+
+                    <!-- Right: Custom SVG Logic Graph -->
+                    <div class="flex-[1.5] w-full">
+                        <div
+                            class="bg-card border border-border rounded-xl shadow-sm p-6 md:p-8 relative overflow-hidden">
+                            <svg viewBox="0 0 800 400" class="w-full h-auto" preserveAspectRatio="xMidYMid meet">
+                                <!-- Grid Lines -->
+                                <line x1="50" y1="50" x2="750" y2="50" stroke="#e5e7eb" stroke-width="1"
+                                    stroke-dasharray="4" />
+                                <line x1="50" y1="150" x2="750" y2="150" stroke="#e5e7eb" stroke-width="1"
+                                    stroke-dasharray="4" />
+                                <line x1="50" y1="250" x2="750" y2="250" stroke="#e5e7eb" stroke-width="1"
+                                    stroke-dasharray="4" />
+                                <line x1="50" y1="350" x2="750" y2="350" stroke="#9ca3af" stroke-width="2" />
+                                <line x1="50" y1="50" x2="50" y2="350" stroke="#9ca3af" stroke-width="2" />
+
+                                <!-- Y Axis Labels -->
+                                <text x="40" y="55" font-family="Pretendard, sans-serif" font-size="14" fill="#6b7280"
+                                    text-anchor="end">100%</text>
+                                <text x="40" y="355" font-family="Pretendard, sans-serif" font-size="14" fill="#6b7280"
+                                    text-anchor="end">0%</text>
+
+                                <!-- X Axis Labels -->
+                                <text x="50" y="375" font-family="Pretendard, sans-serif" font-size="14" fill="#6b7280"
+                                    text-anchor="middle">最初の学習</text>
+                                <text x="250" y="375" font-family="Pretendard, sans-serif" font-size="14" fill="#6b7280"
+                                    text-anchor="middle">1時間後</text>
+                                <text x="450" y="375" font-family="Pretendard, sans-serif" font-size="14" fill="#6b7280"
+                                    text-anchor="middle">9時間後</text>
+                                <text x="650" y="375" font-family="Pretendard, sans-serif" font-size="14" fill="#6b7280"
+                                    text-anchor="middle">1日後</text>
+
+                                <!-- Forgetting Curve -->
+                                <path d="M 50 50 Q 150 250 250 300 T 750 340" fill="none" stroke="#ef4444"
+                                    stroke-width="3" stroke-dasharray="6" class="opacity-50" />
+                                <text x="730" y="330" font-family="Pretendard, sans-serif" font-size="14"
+                                    font-weight="bold" fill="#ef4444" text-anchor="end">復習しない場合</text>
+
+                                <!-- Retention Curve -->
+                                <path
+                                    d="M 50 50 Q 150 200 250 220 L 250 50 Q 350 150 450 160 L 450 50 Q 550 100 650 110 L 650 50 Q 700 70 750 80"
+                                    fill="none" stroke="#09090b" stroke-width="4" />
+
+                                <!-- Notification Points -->
+                                <circle cx="250" cy="50" r="6" fill="#09090b" />
+                                <circle cx="450" cy="50" r="6" fill="#09090b" />
+                                <circle cx="650" cy="50" r="6" fill="#09090b" />
+
+                                <!-- Tooltip-like Labels -->
+                                <rect x="180" y="10" width="140" height="30" rx="4" fill="#18181b" opacity="0.9" />
+                                <text x="250" y="30" font-family="Pretendard, sans-serif" font-size="12"
+                                    font-weight="bold" fill="#fafafa" text-anchor="middle">第1回復習のタイミング！</text>
+
+                                <rect x="380" y="10" width="140" height="30" rx="4" fill="#18181b" opacity="0.9" />
+                                <text x="450" y="30" font-family="Pretendard, sans-serif" font-size="12"
+                                    font-weight="bold" fill="#fafafa" text-anchor="middle">第2回復習のタイミング！</text>
+
+                                <text x="730" y="40" font-family="Pretendard, sans-serif" font-size="14"
+                                    font-weight="bold" fill="#09090b" text-anchor="end">StudyReminder使用時</text>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+        </section>
+
+        <section id="features" class="py-24 bg-background">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6">
+
+                <div class="flex flex-col md:flex-row items-center gap-12 lg:gap-20 mb-32 anim-fade-up">
+                    <div class="flex-1 order-2 md:order-1">
+                        <div
+                            class="w-12 h-12 rounded-lg bg-muted flex items-center justify-center border border-border mb-6">
+                            <span class="text-xl">⏱️</span>
+                        </div>
+                        <h3 class="text-3xl font-bold tracking-tight mb-4 text-foreground">
+                            あなたのスタイルに合わせた圧倒的な没入感<br />
+                            <span class="text-muted-foreground">ストップウォッチ＆タイマー選択機能</span>
+                        </h3>
+                        <p class="text-lg text-muted-foreground leading-relaxed">
+                            ストップウォッチ（無限の集中）方式、タイマー（カウントダウン）方式、常時表示（AOD）、画面オフなど、様々なオプションが用意されています。<strong>あなただけのスタイルに合わせて、完璧に集中してみてください。</strong>
                         </p>
                     </div>
-
-                    <a href="https://play.google.com/store/apps/details?id=com.memorycurve.studyreminder"
-                        target="_blank"
-                        class="inline-flex items-center justify-center px-10 py-5 text-xl font-bold rounded-2xl text-brand-light bg-brand-dark shadow-xl hover:-translate-y-1 hover:shadow-2xl transition-all duration-300">
-                        <svg class="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 24 24">
-                            <path
-                                d="M17.523 15.3414C17.523 15.8234 17.29 16.2734 16.892 16.5514L8.74996 22.2514C8.42396 22.4794 8.04696 22.5834 7.68496 22.5834C7.03196 22.5834 6.39596 22.2534 6.00296 21.6594C5.78996 21.3344 5.67996 20.9594 5.67996 20.5834V3.41738C5.67996 3.04138 5.78996 2.66638 6.00296 2.34138C6.54196 1.52738 7.64196 1.30338 8.45596 1.84138L16.598 7.54138C17.288 8.02438 17.523 8.94638 17.523 9.76138V15.3414Z">
-                            </path>
-                        </svg>
-                        Google Play で手に入れよう
-                    </a>
+                    <div class="flex-1 order-1 md:order-2 flex justify-center w-full">
+                        <div class="phone-mockup w-64 lg:w-72 shadow-lg">
+                            <img src="kor/2-1타이머01.jpg" alt="デュアルタイマー" class="w-full">
+                        </div>
+                    </div>
                 </div>
 
-                <div class="flex-1 order-1 lg:order-2 w-full max-w-sm lg:max-w-md animate-float">
-                    <div class="phone-mockup relative mx-auto aspect-[9/19.5]">
-                        <img src="kor/01.홈.png" alt="StudyReminder ホーム画面"
-                            class="absolute w-full h-full object-cover rounded-3xl"
-                            onerror="this.src='https://placehold.co/400x800?text=Home';">
+                <div class="flex flex-col md:flex-row items-center gap-12 lg:gap-20 mb-32 anim-fade-up">
+                    <div class="flex-1 flex justify-center w-full">
+                        <div class="phone-mockup w-64 lg:w-72 shadow-lg">
+                            <img src="kor/04.기록.jpg" alt="まとめノート記録" class="w-full">
+                        </div>
                     </div>
+                    <div class="flex-1">
+                        <div class="w-12 h-12 rounded-lg bg-primary flex items-center justify-center mb-6">
+                            <span class="text-primary-foreground text-xl">📝</span>
+                        </div>
+                        <h3 class="text-3xl font-bold tracking-tight mb-4 text-foreground">
+                            揮発性の高い科目を克服する<br />
+                            <span class="text-muted-foreground">強力なキーワード長期記憶化</span>
+                        </h3>
+                        <p class="text-lg text-muted-foreground leading-relaxed">
+                            まとめノートを作成し、<strong>キーワードで忘れやすい暗記科目を完璧な長期記憶に変えましょう。</strong>メモや写真を添付して、自分だけのサブノートを最も効率的に管理できます。
+                        </p>
+                    </div>
+                </div>
+
+                <div class="flex flex-col md:flex-row items-center gap-12 lg:gap-20 anim-fade-up">
+                    <div class="flex-1 order-2 md:order-1">
+                        <div
+                            class="w-12 h-12 rounded-lg bg-muted flex items-center justify-center border border-border mb-6">
+                            <span class="text-xl">📊</span>
+                        </div>
+                        <h3 class="text-3xl font-bold tracking-tight mb-4 text-foreground">
+                            一目で分かる<br />
+                            <span class="text-muted-foreground">科目別バランス統計</span>
+                        </h3>
+                        <p class="text-lg text-muted-foreground leading-relaxed">
+                            「今週はこの科目の勉強をおろそかにしたかな？」直感的な累積チャートと週間グラフで、すべての科目の勉強・復習バランスを即座に把握し、スケジュールを微調整できます。
+                        </p>
+                    </div>
+                    <div class="flex-1 order-1 md:order-2 flex justify-center w-full">
+                        <div class="phone-mockup w-64 lg:w-72 shadow-lg">
+                            <img src="kor/03.통계.png" alt="統計グラフの画面" class="w-full">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="gallery" class="py-24 bg-muted/30 border-y border-border">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 text-center anim-fade-up">
+                <h2 class="text-3xl md:text-4xl font-bold tracking-tight mb-4">学習の密度を高める強力なディテール</h2>
+                <p class="text-lg text-muted-foreground mb-16">StudyReminderのすべては、あなたの成功のために設計されています。</p>
+
+                <div class="flex flex-wrap justify-center items-start gap-10 lg:gap-14">
+
+                    <!-- Removed 04.기록.jpg from here -->
+
+                    <div class="w-full max-w-[260px] flex flex-col items-center">
+                        <div class="phone-mockup border-4 shadow-md mb-6 w-full aspect-[9/19.5]">
+                            <img src="kor/05검색.jpg" alt="過去のメモの迅速な検索" class="w-full h-full object-cover">
+                        </div>
+                        <h4 class="font-bold text-foreground text-lg">過去のメモの迅速な検索</h4>
+                    </div>
+
+                    <div class="w-full max-w-[260px] flex flex-col items-center">
+                        <div class="phone-mockup border-4 shadow-md mb-6 w-full aspect-[9/19.5]">
+                            <img src="kor/2-1타이머02.jpg" alt="学習内容の直感的な入力" class="w-full h-full object-cover">
+                        </div>
+                        <h4 class="font-bold text-foreground text-lg">学習内容の直感的な入力</h4>
+                    </div>
+
+                    <div class="w-full max-w-[260px] flex flex-col items-center">
+                        <div class="phone-mockup border-4 shadow-md mb-6 w-full aspect-[9/19.5]">
+                            <img src="kor/07.백업.jpg" alt="機能ローカルバックアップ" class="w-full h-full object-cover">
+                        </div>
+                        <h4 class="font-bold text-foreground text-lg">安全なデータバックアップ</h4>
+                    </div>
+
+                    <div class="w-full max-w-[260px] flex flex-col items-center">
+                        <div class="phone-mockup border-4 shadow-md mb-6 w-full aspect-[9/19.5]">
+                            <img src="kor/06.설정.png" alt="環境設定" class="w-full h-full object-cover">
+                        </div>
+                        <h4 class="font-bold text-foreground text-lg">アプリ環境の完璧なカスタマイズ</h4>
+                    </div>
+
+                    <div class="w-full max-w-[260px] flex flex-col items-center">
+                        <div class="phone-mockup border-4 shadow-md mb-6 w-full aspect-[9/19.5]">
+                            <img src="kor/08.언어설정.jpg" alt="言語設定" class="w-full h-full object-cover">
+                        </div>
+                        <h4 class="font-bold text-foreground text-lg">好みに合わせた言語設定</h4>
+                    </div>
+
                 </div>
             </div>
         </section>
 
-        <!-- Features Section -->
-        <section id="features" class="py-24 bg-white relative z-20 border-y border-brand-dark/5">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-24 scroll-animate">
-                    <h2 class="text-4xl lg:text-5xl font-extrabold mb-6">忘却を完全に制御するフロー</h2>
-                    <p class="text-xl text-brand-dark/70">タイマー計測から完璧な復習スケジューリングまで、このアプリひとつで完結します。</p>
-                </div>
-
-                <div class="space-y-32">
-
-                    <!-- Feature 1 -->
-                    <div class="flex flex-col md:flex-row items-center gap-12 lg:gap-24 scroll-animate">
-                        <div class="flex-1 order-2 md:order-1 text-center md:text-left">
-                            <div
-                                class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-brand-light border border-brand-accent/20 mb-6 text-3xl">
-                                ⏱️</div>
-                            <h3 class="text-3xl lg:text-4xl font-extrabold mb-4">ブレない集中力<br />デュアルタイマーシステム</h3>
-                            <p class="text-brand-dark/70 text-lg lg:text-xl leading-relaxed">
-                                カウントダウン（ポモドーロ用）とストップウォッチ（連続集中用）の2つのモードをサポート。バックグラウンドでも1秒の誤差なく時間を計測でき、画面を消して集中状態に入れます。
-                            </p>
-                        </div>
-                        <div class="flex-1 order-1 md:order-2 w-full flex justify-center">
-                            <div class="w-64 lg:w-80 phone-mockup">
-                                <img src="kor/2-1타이머01.jpg" alt="デュアルタイマー" class="w-full h-auto"
-                                    onerror="this.src='https://placehold.co/400x800?text=Timer';">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Feature 2 -->
-                    <div class="flex flex-col md:flex-row items-center gap-12 lg:gap-24 scroll-animate">
-                        <div class="flex-1 w-full flex justify-center">
-                            <div class="w-64 lg:w-80 phone-mockup">
-                                <img src="kor/02.복습.png" alt="復習タイムライン" class="w-full h-auto"
-                                    onerror="this.src='https://placehold.co/400x800?text=Review';">
-                            </div>
-                        </div>
-                        <div class="flex-1 text-center md:text-left">
-                            <div
-                                class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-brand-dark text-brand-light mb-6 text-3xl">
-                                🧠</div>
-                            <h3 class="text-3xl lg:text-4xl font-extrabold mb-4">最適なタイミングで知らせる<br />奇跡の復習タイムライン</h3>
-                            <p class="text-brand-dark/70 text-lg lg:text-xl leading-relaxed">
-                                エビングハウスの忘却曲線理論を適用し、1日、3日、7日、30日の最も忘れやすい *ゴールデンタイム* を計算して通知を送ります。タップするだけで即座に復習モードに入れます。
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Feature 3 -->
-                    <div class="flex flex-col md:flex-row items-center gap-12 lg:gap-24 scroll-animate">
-                        <div class="flex-1 order-2 md:order-1 text-center md:text-left">
-                            <div
-                                class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-[#F8F9FA] border border-gray-200 mb-6 text-3xl">
-                                📊</div>
-                            <h3 class="text-3xl lg:text-4xl font-extrabold mb-4">一目で把握できる<br />科目別バランス統計</h3>
-                            <p class="text-brand-dark/70 text-lg lg:text-xl leading-relaxed">
-                                「今週は歴史の勉強をおろそかにしたかな？」 直感的な累積チャートと週間グラフで、全ての科目の学習・復習バランスを即座に把握し、予定を調整してください。
-                            </p>
-                        </div>
-                        <div class="flex-1 order-1 md:order-2 w-full flex justify-center">
-                            <div class="w-64 lg:w-80 phone-mockup">
-                                <img src="kor/03.통계.png" alt="統計チャート画面" class="w-full h-auto"
-                                    onerror="this.src='https://placehold.co/400x800?text=Stats';">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Screenshot Gallery -->
-        <section id="gallery" class="py-24 bg-[#FFFCE8] overflow-hidden">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12 scroll-animate text-center">
-                <h2 class="text-4xl font-extrabold mb-4">実用的なディテールを確認</h2>
-                <p class="text-lg text-brand-dark/70">StudyReminder のすべての機能は、あなたの学習効率を高めるために設計されています。</p>
-            </div>
-
-            <div class="flex gap-6 overflow-x-auto pb-12 px-4 sm:px-8 snap-x snap-mandatory hide-scrollbar">
-                <div class="min-w-[280px] w-72 shrink-0 snap-center">
-                    <div class="phone-mockup border-8 shadow-xl">
-                        <img src="kor/04.기록.jpg" alt="Rich History Viewer" class="w-full"
-                            onerror="this.src='https://placehold.co/400x800?text=History';">
-                    </div>
-                    <h4 class="mt-6 text-center font-bold text-xl">詳細な学習履歴</h4>
-                </div>
-
-                <div class="min-w-[280px] w-72 shrink-0 snap-center">
-                    <div class="phone-mockup border-8 shadow-xl">
-                        <img src="kor/05검색.jpg" alt="Quick Search Note" class="w-full"
-                            onerror="this.src='https://placehold.co/400x800?text=Search';">
-                    </div>
-                    <h4 class="mt-6 text-center font-bold text-xl">過去のメモを素早く検索</h4>
-                </div>
-
-                <div class="min-w-[280px] w-72 shrink-0 snap-center">
-                    <div class="phone-mockup border-8 shadow-xl">
-                        <img src="kor/2-1타이머02.jpg" alt="Focus Record Input" class="w-full"
-                            onerror="this.src='https://placehold.co/400x800?text=Record';">
-                    </div>
-                    <h4 class="mt-6 text-center font-bold text-xl">直感的な入力画面</h4>
-                </div>
-
-                <div class="min-w-[280px] w-72 shrink-0 snap-center">
-                    <div class="phone-mockup border-8 shadow-xl">
-                        <img src="kor/07.백업.jpg" alt="Cloud Backup" class="w-full"
-                            onerror="this.src='https://placehold.co/400x800?text=Backup';">
-                    </div>
-                    <h4 class="mt-6 text-center font-bold text-xl">ローカルZIPバックアップ/復元</h4>
-                </div>
-
-                <div class="min-w-[280px] w-72 shrink-0 snap-center">
-                    <div class="phone-mockup border-8 shadow-xl">
-                        <img src="kor/06.설정.png" alt="App Customization" class="w-full"
-                            onerror="this.src='https://placehold.co/400x800?text=Settings';">
-                    </div>
-                    <h4 class="mt-6 text-center font-bold text-xl">充実したカスタマイズ設定</h4>
-                </div>
-            </div>
-        </section>
-
-        <!-- CTA Section -->
-        <section class="py-24 bg-brand-dark text-brand-light border-y border-brand-dark/5 scroll-animate">
-            <div class="max-w-4xl mx-auto px-4 text-center">
-                <h2 class="text-4xl md:text-5xl font-extrabold mb-8">忘却と戦うのは、今日で終わりにしましょう。</h2>
-                <p class="text-xl text-brand-light/80 mb-12 font-medium">
-                    一度のダウンロードで、真のスコアアップにつながる<br />爆発的な学習効率を体験してください。</p>
+        <section class="py-24 bg-foreground text-background text-center anim-fade-up">
+            <div class="max-w-3xl mx-auto px-4">
+                <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-6">もう忘却と戦わないでください。</h2>
+                <p class="text-lg md:text-xl text-muted/80 mb-10 leading-relaxed font-light">
+                    たった一度のダウンロードで、合格へとつながる最も爆発的な学習効率を体験してください。
+                </p>
                 <a href="https://play.google.com/store/apps/details?id=com.memorycurve.studyreminder" target="_blank"
-                    class="inline-flex items-center justify-center px-12 py-6 text-xl font-bold rounded-2xl text-brand-dark bg-brand-accent shadow-xl hover:bg-[#FCD34D] hover:-translate-y-1 hover:shadow-2xl transition-all duration-300">
-                    Google Play ストアで無料ダウンロード &rarr;
+                    class="btn bg-background text-foreground hover:bg-muted font-bold h-14 px-8 text-lg rounded-xl shadow-lg border border-border/10 transition-transform hover:scale-105">
+                    Google Playで無料ダウンロード &rarr;
                 </a>
             </div>
         </section>
 
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-white text-brand-dark py-12 text-center md:text-left">
-        <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6">
-            <div class="flex items-center gap-2">
-                <div
-                    class="w-8 h-8 bg-brand-dark text-brand-light rounded-lg flex items-center justify-center font-bold text-sm transform -rotate-3">
-                    学</div>
-                <p class="text-xl font-extrabold">StudyReminder</p>
+    <footer class="border-t border-border bg-background py-8 text-center md:text-left">
+        <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-2 font-bold text-foreground">
+                <img src="kor/logo_completed.png" alt="StudyReminder Logo" class="w-6 h-6 object-contain">
+                StudyReminder
             </div>
-
-            <p class="text-sm shadow-sm md:shadow-none bg-brand-light md:bg-transparent px-4 py-2 rounded-full">
+            <p class="text-sm text-muted-foreground">
                 &copy; 2026 StudyReminder. All rights reserved.
             </p>
-
-            <div class="flex space-x-6 text-sm font-bold">
-                <a href="privacy.html" class="hover:text-brand-accent text-brand-dark/70">プライバシーポリシー</a>
-            </div>
+            <a href="privacy.html"
+                class="text-sm text-muted-foreground hover:text-foreground font-medium transition-colors">
+                プライバシーポリシー
+            </a>
         </div>
     </footer>
 
     <script>
-        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
-            document.getElementById('mobile-menu').classList.toggle('hidden');
-        });
-
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.15
-        };
-
+        const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
         const observer = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -408,9 +469,7 @@
             });
         }, observerOptions);
 
-        document.querySelectorAll('.scroll-animate').forEach(el => {
-            observer.observe(el);
-        });
+        document.querySelectorAll('.anim-fade-up').forEach(el => observer.observe(el));
     </script>
 </body>
 
